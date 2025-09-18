@@ -335,7 +335,7 @@ MonoBehaviour:
   - {fileID: 1290465889}
   - {fileID: 286874327}
   - {fileID: 306225213}
-  elapsed: 0
+  rightLanes: []
   bpm: 120
 --- !u!4 &382715788
 Transform:
