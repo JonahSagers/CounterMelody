@@ -15,9 +15,8 @@ public class NoteMove : MonoBehaviour
     void Update()
     {
         travelTime += Time.deltaTime * (Song.bpm / 60);
-        transform.position = Vector3.Lerp(startPos, target, travelTime / 8);
-        if(travelTime > 8.1f){
-            Debug.Log("Note Missed");
+        transform.position = Vector3.Lerp(startPos, target, (travelTime - Song.timeSig * Song.scrollSpeed) / Song.timeSig * Song.scrollSpeed);
+        if(travelTime > 8.2f){
             Destroy(gameObject);
         }
     }
