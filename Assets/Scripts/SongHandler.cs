@@ -41,8 +41,14 @@ public class SongHandler : MonoBehaviour
 
         playerControls = new PlayerControls();
         playerControls.Player.Enable();
-        playerControls.Player.LeftLanes.performed += ctx => GetInput(ctx);
-        playerControls.Player.RightLanes.performed += ctx => GetInput(ctx);
+        playerControls.Player.LeftLane0.performed += ctx => GetInput(ctx);
+        playerControls.Player.LeftLane1.performed += ctx => GetInput(ctx);
+        playerControls.Player.LeftLane2.performed += ctx => GetInput(ctx);
+        playerControls.Player.LeftLane3.performed += ctx => GetInput(ctx);
+        playerControls.Player.RightLane0.performed += ctx => GetInput(ctx);
+        playerControls.Player.RightLane1.performed += ctx => GetInput(ctx);
+        playerControls.Player.RightLane2.performed += ctx => GetInput(ctx);
+        playerControls.Player.RightLane3.performed += ctx => GetInput(ctx);
         
         StartCoroutine(Metronome());
     }

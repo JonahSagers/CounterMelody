@@ -93,7 +93,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""df70fa95-8a34-4494-b137-73ab6b9c7d37"",
             ""actions"": [
                 {
-                    ""name"": ""LeftLanes"",
+                    ""name"": ""LeftLane0"",
                     ""type"": ""Button"",
                     ""id"": ""22cee70a-9964-402a-861b-5654b7b671d1"",
                     ""expectedControlType"": """",
@@ -102,9 +102,63 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RightLanes"",
+                    ""name"": ""LeftLane1"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d85c420-a612-4bae-99de-3a5a5df0521d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftLane2"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6a80550-835a-4a5d-9e08-f07b2a7fd1b1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftLane3"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccc7110c-7549-4394-92ba-adb55219e4d2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightLane0"",
                     ""type"": ""Button"",
                     ""id"": ""34497c0d-8ce0-4aad-8725-f0f96c3bb9fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightLane1"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e451e85-94af-4c26-89ea-5ac3de6fc1d7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightLane2"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed7a2f05-890f-40c6-a402-69a64b35f27c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightLane3"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e67c1c3-333c-451d-9ee1-9a94fa7f96a2"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -119,40 +173,40 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftLanes"",
+                    ""action"": ""LeftLane0"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8cf8c3ca-f4ff-4db4-982c-e26c985fb128"",
+                    ""id"": ""8e9c7a9e-d441-4fee-adee-9f6e39cdeb1e"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftLanes"",
+                    ""action"": ""LeftLane1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c4821fb7-ee5f-46f6-a30d-1e6960ff682b"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LeftLanes"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f95e8e28-5b1a-48fd-9302-a4da7cf2bbef"",
+                    ""id"": ""50883fc9-bcbc-4de0-bcca-91f7a1741c06"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftLanes"",
+                    ""action"": ""LeftLane2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b38a797-e3f6-4ab9-97f0-2de9534e0a5c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftLane3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -163,40 +217,40 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RightLanes"",
+                    ""action"": ""RightLane0"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0490a38a-34cc-4721-88ac-bdec37c3f177"",
+                    ""id"": ""e6677ec0-9381-4e1c-b4de-7be65be7d7ca"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RightLanes"",
+                    ""action"": ""RightLane1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""01547ffa-7af6-4b3c-b24c-6ae95d872909"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RightLanes"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2ad4d5b4-d6a2-4f31-91cb-23c11295f272"",
+                    ""id"": ""adafe273-0a98-48ac-bb65-8f56e3ab8678"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""RightLanes"",
+                    ""action"": ""RightLane2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7da022c3-8f85-480b-89b8-534f8492eb8d"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightLane3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -784,8 +838,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_LeftLanes = m_Player.FindAction("LeftLanes", throwIfNotFound: true);
-        m_Player_RightLanes = m_Player.FindAction("RightLanes", throwIfNotFound: true);
+        m_Player_LeftLane0 = m_Player.FindAction("LeftLane0", throwIfNotFound: true);
+        m_Player_LeftLane1 = m_Player.FindAction("LeftLane1", throwIfNotFound: true);
+        m_Player_LeftLane2 = m_Player.FindAction("LeftLane2", throwIfNotFound: true);
+        m_Player_LeftLane3 = m_Player.FindAction("LeftLane3", throwIfNotFound: true);
+        m_Player_RightLane0 = m_Player.FindAction("RightLane0", throwIfNotFound: true);
+        m_Player_RightLane1 = m_Player.FindAction("RightLane1", throwIfNotFound: true);
+        m_Player_RightLane2 = m_Player.FindAction("RightLane2", throwIfNotFound: true);
+        m_Player_RightLane3 = m_Player.FindAction("RightLane3", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -879,8 +939,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_LeftLanes;
-    private readonly InputAction m_Player_RightLanes;
+    private readonly InputAction m_Player_LeftLane0;
+    private readonly InputAction m_Player_LeftLane1;
+    private readonly InputAction m_Player_LeftLane2;
+    private readonly InputAction m_Player_LeftLane3;
+    private readonly InputAction m_Player_RightLane0;
+    private readonly InputAction m_Player_RightLane1;
+    private readonly InputAction m_Player_RightLane2;
+    private readonly InputAction m_Player_RightLane3;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -893,13 +959,37 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Player/LeftLanes".
+        /// Provides access to the underlying input action "Player/LeftLane0".
         /// </summary>
-        public InputAction @LeftLanes => m_Wrapper.m_Player_LeftLanes;
+        public InputAction @LeftLane0 => m_Wrapper.m_Player_LeftLane0;
         /// <summary>
-        /// Provides access to the underlying input action "Player/RightLanes".
+        /// Provides access to the underlying input action "Player/LeftLane1".
         /// </summary>
-        public InputAction @RightLanes => m_Wrapper.m_Player_RightLanes;
+        public InputAction @LeftLane1 => m_Wrapper.m_Player_LeftLane1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/LeftLane2".
+        /// </summary>
+        public InputAction @LeftLane2 => m_Wrapper.m_Player_LeftLane2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/LeftLane3".
+        /// </summary>
+        public InputAction @LeftLane3 => m_Wrapper.m_Player_LeftLane3;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RightLane0".
+        /// </summary>
+        public InputAction @RightLane0 => m_Wrapper.m_Player_RightLane0;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RightLane1".
+        /// </summary>
+        public InputAction @RightLane1 => m_Wrapper.m_Player_RightLane1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RightLane2".
+        /// </summary>
+        public InputAction @RightLane2 => m_Wrapper.m_Player_RightLane2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RightLane3".
+        /// </summary>
+        public InputAction @RightLane3 => m_Wrapper.m_Player_RightLane3;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -926,12 +1016,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @LeftLanes.started += instance.OnLeftLanes;
-            @LeftLanes.performed += instance.OnLeftLanes;
-            @LeftLanes.canceled += instance.OnLeftLanes;
-            @RightLanes.started += instance.OnRightLanes;
-            @RightLanes.performed += instance.OnRightLanes;
-            @RightLanes.canceled += instance.OnRightLanes;
+            @LeftLane0.started += instance.OnLeftLane0;
+            @LeftLane0.performed += instance.OnLeftLane0;
+            @LeftLane0.canceled += instance.OnLeftLane0;
+            @LeftLane1.started += instance.OnLeftLane1;
+            @LeftLane1.performed += instance.OnLeftLane1;
+            @LeftLane1.canceled += instance.OnLeftLane1;
+            @LeftLane2.started += instance.OnLeftLane2;
+            @LeftLane2.performed += instance.OnLeftLane2;
+            @LeftLane2.canceled += instance.OnLeftLane2;
+            @LeftLane3.started += instance.OnLeftLane3;
+            @LeftLane3.performed += instance.OnLeftLane3;
+            @LeftLane3.canceled += instance.OnLeftLane3;
+            @RightLane0.started += instance.OnRightLane0;
+            @RightLane0.performed += instance.OnRightLane0;
+            @RightLane0.canceled += instance.OnRightLane0;
+            @RightLane1.started += instance.OnRightLane1;
+            @RightLane1.performed += instance.OnRightLane1;
+            @RightLane1.canceled += instance.OnRightLane1;
+            @RightLane2.started += instance.OnRightLane2;
+            @RightLane2.performed += instance.OnRightLane2;
+            @RightLane2.canceled += instance.OnRightLane2;
+            @RightLane3.started += instance.OnRightLane3;
+            @RightLane3.performed += instance.OnRightLane3;
+            @RightLane3.canceled += instance.OnRightLane3;
         }
 
         /// <summary>
@@ -943,12 +1051,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerActions" />
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @LeftLanes.started -= instance.OnLeftLanes;
-            @LeftLanes.performed -= instance.OnLeftLanes;
-            @LeftLanes.canceled -= instance.OnLeftLanes;
-            @RightLanes.started -= instance.OnRightLanes;
-            @RightLanes.performed -= instance.OnRightLanes;
-            @RightLanes.canceled -= instance.OnRightLanes;
+            @LeftLane0.started -= instance.OnLeftLane0;
+            @LeftLane0.performed -= instance.OnLeftLane0;
+            @LeftLane0.canceled -= instance.OnLeftLane0;
+            @LeftLane1.started -= instance.OnLeftLane1;
+            @LeftLane1.performed -= instance.OnLeftLane1;
+            @LeftLane1.canceled -= instance.OnLeftLane1;
+            @LeftLane2.started -= instance.OnLeftLane2;
+            @LeftLane2.performed -= instance.OnLeftLane2;
+            @LeftLane2.canceled -= instance.OnLeftLane2;
+            @LeftLane3.started -= instance.OnLeftLane3;
+            @LeftLane3.performed -= instance.OnLeftLane3;
+            @LeftLane3.canceled -= instance.OnLeftLane3;
+            @RightLane0.started -= instance.OnRightLane0;
+            @RightLane0.performed -= instance.OnRightLane0;
+            @RightLane0.canceled -= instance.OnRightLane0;
+            @RightLane1.started -= instance.OnRightLane1;
+            @RightLane1.performed -= instance.OnRightLane1;
+            @RightLane1.canceled -= instance.OnRightLane1;
+            @RightLane2.started -= instance.OnRightLane2;
+            @RightLane2.performed -= instance.OnRightLane2;
+            @RightLane2.canceled -= instance.OnRightLane2;
+            @RightLane3.started -= instance.OnRightLane3;
+            @RightLane3.performed -= instance.OnRightLane3;
+            @RightLane3.canceled -= instance.OnRightLane3;
         }
 
         /// <summary>
@@ -1250,19 +1376,61 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         /// <summary>
-        /// Method invoked when associated input action "LeftLanes" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "LeftLane0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLeftLanes(InputAction.CallbackContext context);
+        void OnLeftLane0(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "RightLanes" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "LeftLane1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRightLanes(InputAction.CallbackContext context);
+        void OnLeftLane1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LeftLane2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLeftLane2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LeftLane3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLeftLane3(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RightLane0" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRightLane0(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RightLane1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRightLane1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RightLane2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRightLane2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RightLane3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRightLane3(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
