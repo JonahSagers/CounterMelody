@@ -23,6 +23,8 @@ public class SongHandler : MonoBehaviour
         //Song is a static class which is accessible from all scripts, but not the inspector
         //BPM here is just used to set the static version
         Song.bpm = bpm;
+        Song.timeSig = timeSig;
+        Song.scrollSpeed = scrollSpeed;
         StartCoroutine(Metronome());
     }
 

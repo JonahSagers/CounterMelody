@@ -342,7 +342,7 @@ MonoBehaviour:
   - {fileID: 1507313144}
   bpm: 120
   timeSig: 8
-  scrollSpeed: 1
+  scrollSpeed: 4
 --- !u!4 &382715788
 Transform:
   m_ObjectHideFlags: 0

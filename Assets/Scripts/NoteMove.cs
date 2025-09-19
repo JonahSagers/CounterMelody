@@ -4,7 +4,7 @@ public class NoteMove : MonoBehaviour
 {
     public Vector3 target;
     private Vector3 startPos;
-    private float travelTime;
+    public float travelTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,7 +15,7 @@ public class NoteMove : MonoBehaviour
     void Update()
     {
         travelTime += Time.deltaTime * (Song.bpm / 60);
-        transform.position = Vector3.Lerp(startPos, target, (travelTime - Song.timeSig * Song.scrollSpeed) / Song.timeSig * Song.scrollSpeed);
+        transform.position = Vector3.Lerp(startPos, target, (travelTime - Song.timeSig + Song.timeSig / Song.scrollSpeed) / (Song.timeSig / Song.scrollSpeed));
         if(travelTime > 8.2f){
             Destroy(gameObject);
         }
