@@ -10,6 +10,7 @@ public class SongHandler : MonoBehaviour
     public List<(GameObject obj, float timing, int lane)> noteList = new List<(GameObject, float, int)>();
     [Header("Components")]
     public TextMeshProUGUI timingDisplay;
+    public TextMeshProUGUI turnDisplay;
     public GameObject notePre;
     public List<GameObject> leftLanes;
     public List<GameObject> rightLanes;
@@ -29,10 +30,12 @@ public class SongHandler : MonoBehaviour
     [Header("Data")]
     public float startTime;
     public int turns;
+    public List<float> allowedSubsteps;
 
 
     void Start()
     {
+        gameState = -1;
         //Song is a static class which is accessible from all scripts, but not the inspector
         //BPM here is just used to set the static version
         Song.bpm = bpm;
@@ -105,9 +108,17 @@ public class SongHandler : MonoBehaviour
 
     public IEnumerator Metronome()
     {
-        yield return new WaitForSeconds(1);
+        int countdown = 4;
+        while(countdown > 0){
+            turnDisplay.text = countdown.ToString();
+            yield return new WaitForSeconds(0.5f);
+            countdown -= 1;
+        }
+        
         startTime = Time.realtimeSinceStartup;
         bool newMeasure;
+        gameState = 0;
+        allowedSubsteps.Add(0.0f);
         while(true){
             newMeasure = false;
             while(!newMeasure){
@@ -121,6 +132,15 @@ public class SongHandler : MonoBehaviour
             }
             turns += 1;
             gameState = (gameState + 1) % 4;
+            if(gameState == 0){
+                turnDisplay.text = "Right Player Attack";
+            } else if(gameState == 1){
+                turnDisplay.text = "Left Player Defend";
+            } else if(gameState == 2){
+                turnDisplay.text = "Left Player Attack";
+            } else if(gameState == 3){
+                turnDisplay.text = "Right Player Defend";
+            }
         }
     }
 
@@ -135,6 +155,19 @@ public class SongHandler : MonoBehaviour
             targetLanes = leftLanes;
             spawnLanes = rightLanes;
         }
+        int bestIndex = 0;
+        float bestDist = 1.0f;
+        float substep = pressTime - (int)pressTime;
+        for(int i = 0; i < allowedSubsteps.Count; i++){
+            float tempDist = Mathf.Abs(substep - allowedSubsteps[i]);
+            if(tempDist < bestDist){
+                bestDist = tempDist;
+                bestIndex = i;
+            }
+        }
+        pressTime = allowedSubsteps[bestIndex] + (int)pressTime;
+
+        Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform.position;
         noteList.Add((note, pressTime, lane));
