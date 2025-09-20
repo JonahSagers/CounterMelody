@@ -80,9 +80,9 @@ public class SongHandler : MonoBehaviour
             lane = 3;
         }
         if(lane >= 0){
-            if(gameState == 1 || gameState == 0 && Song.elapsed > Song.timeSig - 0.1f){
+            if((gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
-            } else if(gameState == 2 || gameState == 1 && Song.elapsed > Song.timeSig - 0.1f){
+            } else if((gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
                 SpawnNote(1, lane, pressTime);
             }
             return;
@@ -97,9 +97,9 @@ public class SongHandler : MonoBehaviour
             lane = 3;
         }
         if(lane >= 0){
-            if(gameState == 3 || gameState == 2 && Song.elapsed > Song.timeSig - 0.1f){
+            if((gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
-            } else if(gameState == 0 || gameState == 3 && Song.elapsed > Song.timeSig - 0.1f){
+            } else if((gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
                 SpawnNote(2, lane, pressTime);
             }
             return;
@@ -108,12 +108,14 @@ public class SongHandler : MonoBehaviour
 
     public IEnumerator Metronome()
     {
+        //First six lines are just debug, remove later
         int countdown = 4;
         while(countdown > 0){
             turnDisplay.text = countdown.ToString();
             yield return new WaitForSeconds(0.5f);
             countdown -= 1;
         }
+        turnDisplay.text = "Right Player Attack";
         
         startTime = Time.realtimeSinceStartup;
         bool newMeasure;
@@ -160,7 +162,7 @@ public class SongHandler : MonoBehaviour
         float substep = pressTime - (int)pressTime;
         for(int i = 0; i < allowedSubsteps.Count; i++){
             float tempDist = Mathf.Abs(substep - allowedSubsteps[i]);
-            if(tempDist < bestDist){
+            if(tempDist < bestDist && (int)pressTime + allowedSubsteps[i] <= Song.timeSig - 1){
                 bestDist = tempDist;
                 bestIndex = i;
             }
