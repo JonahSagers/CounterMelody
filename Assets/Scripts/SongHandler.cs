@@ -121,6 +121,7 @@ public class SongHandler : MonoBehaviour
         bool newMeasure;
         gameState = 0;
         allowedSubsteps.Add(0.0f);
+        allowedSubsteps.Add(1.0f);
         while(true){
             newMeasure = false;
             while(!newMeasure){
@@ -172,6 +173,7 @@ public class SongHandler : MonoBehaviour
         Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform.position;
+        note.GetComponent<NoteMove>().travelTime = substep - allowedSubsteps[bestIndex];
         noteList.Add((note, pressTime, lane));
     }
 
