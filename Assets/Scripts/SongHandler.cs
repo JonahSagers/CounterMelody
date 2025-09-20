@@ -12,6 +12,8 @@ public class SongHandler : MonoBehaviour
     public TextMeshProUGUI timingDisplay;
     public TextMeshProUGUI turnDisplay;
     public RectTransform metronomeDisplay;
+    public AudioSource sfxPlayer;
+    public AudioSource bgmPlayer;
     public GameObject notePre;
     public List<GameObject> leftLanes;
     public List<GameObject> rightLanes;
@@ -29,6 +31,7 @@ public class SongHandler : MonoBehaviour
         // 4: right player defend
 
     [Header("Data")]
+    public List<AudioClip> sounds;
     public float startTime;
     public int turns;
     public List<float> allowedSubsteps;
@@ -109,17 +112,21 @@ public class SongHandler : MonoBehaviour
 
     public IEnumerator Metronome()
     {
+        yield return new WaitForSeconds(0.5f);
         //First six lines are just debug, remove later
         int countdown = 4;
+        sfxPlayer.PlayOneShot(sounds[0]);
         while(countdown > 0){
             turnDisplay.text = countdown.ToString();
             yield return new WaitForSeconds(0.5f);
+            sfxPlayer.PlayOneShot(sounds[1]);
             countdown -= 1;
         }
         turnDisplay.text = "Right Player Attack";
         
         startTime = Time.realtimeSinceStartup;
         bool newMeasure;
+        bool metronomeLatch = true;
         gameState = 0;
         allowedSubsteps.Add(0.0f);
         allowedSubsteps.Add(1.0f);
@@ -132,8 +139,23 @@ public class SongHandler : MonoBehaviour
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
                     newMeasure = true;
                 }
-                float substepScale = 1.2f - (Song.elapsed - (int)Song.elapsed)/5;
+                float substep = Song.elapsed - (int)Song.elapsed;
+                float substepScale = 1.2f - substep/5;
+
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
+                if(substep < 0.5f){
+                    if(metronomeLatch){
+                        if(Song.elapsed < 0.5f){
+                            sfxPlayer.PlayOneShot(sounds[0]);
+                        } else {
+                            sfxPlayer.PlayOneShot(sounds[1]);
+                        }
+                        
+                        metronomeLatch = false;
+                    }
+                } else {
+                    metronomeLatch = true;
+                }
                 yield return 0;
             }
             turns += 1;
