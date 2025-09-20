@@ -17,6 +17,8 @@ public class SongHandler : MonoBehaviour
     public GameObject notePre;
     public List<GameObject> leftLanes;
     public List<GameObject> rightLanes;
+    public PlayerController playerOne;
+    public PlayerController playerTwo;
     private PlayerControls playerControls;
 
     [Header("Parameters")]
@@ -87,7 +89,9 @@ public class SongHandler : MonoBehaviour
             if((gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
             } else if((gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
-                SpawnNote(1, lane, pressTime);
+                if(playerOne.SpendMana(1)){
+                    SpawnNote(1, lane, pressTime);
+                }
             }
             return;
         }
@@ -104,7 +108,9 @@ public class SongHandler : MonoBehaviour
             if((gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
             } else if((gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
-                SpawnNote(2, lane, pressTime);
+                if(playerTwo.SpendMana(1)){
+                    SpawnNote(2, lane, pressTime);
+                }
             }
             return;
         }
@@ -197,7 +203,7 @@ public class SongHandler : MonoBehaviour
 
         Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
-        note.GetComponent<NoteMove>().target = targetLanes[lane].transform.position;
+        note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
         note.GetComponent<NoteMove>().travelTime = substep - allowedSubsteps[bestIndex];
         noteList.Add((note, pressTime, lane));
     }

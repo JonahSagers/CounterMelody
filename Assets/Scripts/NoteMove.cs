@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NoteMove : MonoBehaviour
 {
-    public Vector3 target;
+    public Transform target;
     private Vector3 startPos;
     public float travelTime;
     private float lastTime;
@@ -18,7 +18,7 @@ public class NoteMove : MonoBehaviour
     {
         travelTime += (Time.realtimeSinceStartup - lastTime) * (Song.bpm / 60);
         lastTime = Time.realtimeSinceStartup;
-        transform.position = Vector3.Lerp(startPos, target, (travelTime - Song.timeSig + Song.timeSig / Song.scrollSpeed) / (Song.timeSig / Song.scrollSpeed));
+        transform.position = Vector3.Lerp(startPos, target.position, (travelTime - Song.timeSig + Song.timeSig / Song.scrollSpeed) / (Song.timeSig / Song.scrollSpeed));
         if(travelTime > 8.2f){
             SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
             for(int i = 0; i < songHandler.noteList.Count; i++){
@@ -27,6 +27,7 @@ public class NoteMove : MonoBehaviour
                     break;
                 }
             }
+            target.parent.GetComponent<PlayerController>().TakeDamage(0.5f);
             Destroy(gameObject);
         }
     }
