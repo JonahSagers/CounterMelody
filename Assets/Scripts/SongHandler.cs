@@ -11,6 +11,7 @@ public class SongHandler : MonoBehaviour
     [Header("Components")]
     public TextMeshProUGUI timingDisplay;
     public TextMeshProUGUI turnDisplay;
+    public RectTransform metronomeDisplay;
     public GameObject notePre;
     public List<GameObject> leftLanes;
     public List<GameObject> rightLanes;
@@ -131,6 +132,8 @@ public class SongHandler : MonoBehaviour
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
                     newMeasure = true;
                 }
+                float substepScale = 1.2f - (Song.elapsed - (int)Song.elapsed)/5;
+                metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
                 yield return 0;
             }
             turns += 1;
