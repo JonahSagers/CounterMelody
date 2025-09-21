@@ -200,7 +200,7 @@ public class SongHandler : MonoBehaviour
         float substep = pressTime - (int)pressTime;
         for(int i = 0; i < allowedSubsteps.Count; i++){
             float tempDist = Mathf.Abs(substep - allowedSubsteps[i]);
-            if(tempDist < bestDist && (int)pressTime + allowedSubsteps[i] <= Song.timeSig - 1){
+            if(tempDist < bestDist && ((int)pressTime + allowedSubsteps[i] <= Song.timeSig - 1 && Song.gameState % 2 == 1)){
                 bestDist = tempDist;
                 bestIndex = i;
             }
