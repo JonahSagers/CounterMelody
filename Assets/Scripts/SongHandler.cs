@@ -136,6 +136,7 @@ public class SongHandler : MonoBehaviour
         bool metronomeLatch = true;
         Song.gameState = 0;
         allowedSubsteps.Add(0.0f);
+        allowedSubsteps.Add(0.5f);
         while(true){
             newMeasure = false;
             
