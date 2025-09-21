@@ -37,6 +37,7 @@ public class SongHandler : MonoBehaviour
     public float startTime;
     public int turns;
     public List<float> allowedSubsteps;
+    public List<float> allSteps;
 
 
     void Start()
@@ -135,9 +136,16 @@ public class SongHandler : MonoBehaviour
         bool metronomeLatch = true;
         Song.gameState = 0;
         allowedSubsteps.Add(0.0f);
-        allowedSubsteps.Add(1.0f);
         while(true){
             newMeasure = false;
+            
+            allSteps = new List<float>();
+            for(int i = 0; i < Song.timeSig; i++){
+                foreach(float substep in allowedSubsteps){
+                    allSteps.Add(i + substep);
+                }
+            }
+
             while(!newMeasure){
                 timingDisplay.text = (Song.elapsed + 1).ToString();
                 Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * turns;
@@ -197,20 +205,41 @@ public class SongHandler : MonoBehaviour
         }
         int bestIndex = 0;
         float bestDist = 1.0f;
-        float substep = pressTime - (int)pressTime;
-        for(int i = 0; i < allowedSubsteps.Count; i++){
-            float tempDist = Mathf.Abs(substep - allowedSubsteps[i]);
-            if(tempDist < bestDist && ((int)pressTime + allowedSubsteps[i] <= Song.timeSig - 1 && Song.gameState % 2 == 1)){
+
+        if(pressTime > 7 && pressTime < 7.8f){
+            pressTime = 7;
+        } else if(pressTime > 7.8f){
+            pressTime -= 8;
+        }
+        
+        for(int i = 0; i < allSteps.Count; i++){
+            float tempDist = Mathf.Abs(pressTime - allSteps[i]);
+            if(tempDist < bestDist){
                 bestDist = tempDist;
                 bestIndex = i;
             }
         }
-        pressTime = allowedSubsteps[bestIndex] + (int)pressTime;
+        float offset = pressTime - allSteps[bestIndex];
+        pressTime = allSteps[bestIndex];
+
+        for(int i = 0; i < noteList.Count; i++){
+            if(noteList[i].lane == lane && noteList[i].timing == pressTime){
+                if(player == 1){
+                    playerLeft.mana += 1;
+                    playerLeft.manaBar.value += 1;
+                } else {
+                    playerRight.mana += 1;
+                    playerRight.manaBar.value += 1;
+                }
+                return;
+            }
+        }
+        
 
         Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
-        note.GetComponent<NoteMove>().travelTime = substep - allowedSubsteps[bestIndex];
+        note.GetComponent<NoteMove>().travelTime = offset;
         noteList.Add((note, pressTime, lane));
     }
 
