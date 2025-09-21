@@ -20,17 +20,17 @@ public class SongHandler : MonoBehaviour
     public PlayerController playerLeft;
     public PlayerController playerRight;
     private PlayerControls playerControls;
+    public GameObject judgementPre;
 
     [Header("Parameters")]
     public float bpm;
     public float timeSig;
     public float scrollSpeed;
-    public int gameState;
     //Game state list:
-        // 1: right player attack
-        // 2: left player defend
-        // 3: left player attack
-        // 4: right player defend
+        // 0: right player attack
+        // 1: left player defend
+        // 2: left player attack
+        // 3: right player defend
 
     [Header("Data")]
     public List<AudioClip> sounds;
@@ -41,7 +41,7 @@ public class SongHandler : MonoBehaviour
 
     void Start()
     {
-        gameState = -1;
+        Song.gameState = -1;
         //Song is a static class which is accessible from all scripts, but not the inspector
         //BPM here is just used to set the static version
         Song.bpm = bpm;
@@ -86,9 +86,9 @@ public class SongHandler : MonoBehaviour
             lane = 3;
         }
         if(lane >= 0){
-            if((gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
+            if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
-            } else if((gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
+            } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
                 if(playerLeft.SpendMana(1)){
                     SpawnNote(1, lane, pressTime);
                 }
@@ -105,9 +105,9 @@ public class SongHandler : MonoBehaviour
             lane = 3;
         }
         if(lane >= 0){
-            if((gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
+            if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
-            } else if((gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
+            } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
                 if(playerRight.SpendMana(1)){
                     SpawnNote(2, lane, pressTime);
                 }
@@ -133,7 +133,7 @@ public class SongHandler : MonoBehaviour
         startTime = Time.realtimeSinceStartup;
         bool newMeasure;
         bool metronomeLatch = true;
-        gameState = 0;
+        Song.gameState = 0;
         allowedSubsteps.Add(0.0f);
         allowedSubsteps.Add(1.0f);
         while(true){
@@ -165,19 +165,19 @@ public class SongHandler : MonoBehaviour
                 yield return 0;
             }
             turns += 1;
-            gameState = (gameState + 1) % 4;
+            Song.gameState = (Song.gameState + 1) % 4;
             //Mana is refreshed directly after the attack, but only visually shown during the next attack
             //This avoids being out of mana on your first hit
-            if(gameState == 0){
+            if(Song.gameState == 0){
                 turnDisplay.text = "Right Player Attack";
                 playerRight.ManaBarUpdate();
-            } else if(gameState == 1){
+            } else if(Song.gameState == 1){
                 turnDisplay.text = "Left Player Defend";
                 playerRight.mana = Mathf.Floor(playerRight.maxMana);
-            } else if(gameState == 2){
+            } else if(Song.gameState == 2){
                 turnDisplay.text = "Left Player Attack";
                 playerLeft.ManaBarUpdate();
-            } else if(gameState == 3){
+            } else if(Song.gameState == 3){
                 turnDisplay.text = "Right Player Defend";
                 playerLeft.mana = Mathf.Floor(playerLeft.maxMana);
             }
@@ -221,10 +221,29 @@ public class SongHandler : MonoBehaviour
             //split into two if statements to potentially do judgements
             if(noteList[i].lane == lane){
                 float error = Mathf.Abs(noteList[i].timing - pressTime);
+                error = (error < 1) ? error : -Song.timeSig + error;
                 //really wish I knew how to do this in one check
                 //lmk if you think of anything
-                if(error < 0.2f || error > Song.timeSig - 0.2f){
-                    Debug.Log("Note hit in lane " + lane + " with error " + ((error < 1) ? error : -Song.timeSig + error));
+                if(Mathf.Abs(error) < 0.2f){
+                    Debug.Log("Note hit in lane " + lane + " with error " + error);
+                    GameObject judgement = Instantiate(judgementPre, ((Song.gameState < 2) ? leftLanes[lane] : rightLanes[lane]).transform.position, Quaternion.identity);
+                    if(Mathf.Abs(error) < 0.1f){
+                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Perfect";
+                        if(Song.gameState < 2){
+                            playerLeft.maxMana += 0.25f;
+                            if(Mathf.Repeat(playerLeft.maxMana, 1) == 0){
+                                playerLeft.mana += 1.0f;
+                            }
+                            
+                            playerLeft.ManaBarScale();
+                        } else {
+                            playerRight.maxMana += 0.25f;
+                            if(Mathf.Repeat(playerRight.maxMana, 1) == 0){
+                                playerRight.mana += 1.0f;
+                            }
+                            playerRight.ManaBarScale();
+                        }
+                    }
                     Destroy(noteList[i].obj);
                     noteList.RemoveAt(i);
                     break;

@@ -72,4 +72,12 @@ public class PlayerController : MonoBehaviour
         manaBar.value = mana;
         yield return 0;
     }
+
+    public void ManaBarScale()
+    {
+        RectTransform manaRect = manaBar.gameObject.GetComponent<RectTransform>();
+        manaRect.sizeDelta = new Vector2(maxMana / 4, 0.6f);
+        manaRect.anchoredPosition = new Vector2(-1.5f, 1.5f + maxMana / 8);
+        manaBar.maxValue = maxMana;
+    }
 }

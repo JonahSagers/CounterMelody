@@ -422,10 +422,10 @@ MonoBehaviour:
   - {fileID: 1507313144}
   playerLeft: {fileID: 1354307145}
   playerRight: {fileID: 787596526}
+  judgementPre: {fileID: 8421119284735404837, guid: 3188ecc20255cc449b2821aaf6fdee5a, type: 3}
   bpm: 120
   timeSig: 8
   scrollSpeed: 1
-  gameState: 0
   sounds:
   - {fileID: 8300000, guid: 73eb548438b7c2740802504b438e44c1, type: 3}
   - {fileID: 8300000, guid: 93cfad2df69df16448c9867ebfa212a1, type: 3}
@@ -2972,7 +2972,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: -1.5, y: 2}
-  m_SizeDelta: {x: 1, y: 0.5999999}
+  m_SizeDelta: {x: 1, y: 0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1811947532
 GameObject:
