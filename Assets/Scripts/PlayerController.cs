@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float mana;
     public float health;
+    public float maxMana;
     public Slider healthBar;
     public Image healthImage;
     public Slider manaBar;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     {
         health = 10;
         mana = 4;
+        maxMana = 4;
     }
 
     // Update is called once per frame
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
         healthImage.color = Color.red;
     }
 
-    IEnumerator ManaBarUpdate()
+    public IEnumerator ManaBarUpdate()
     {
         //I ain't writin all that
         manaBar.value = mana;

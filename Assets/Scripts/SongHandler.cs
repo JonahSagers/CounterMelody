@@ -17,8 +17,8 @@ public class SongHandler : MonoBehaviour
     public GameObject notePre;
     public List<GameObject> leftLanes;
     public List<GameObject> rightLanes;
-    public PlayerController playerOne;
-    public PlayerController playerTwo;
+    public PlayerController playerLeft;
+    public PlayerController playerRight;
     private PlayerControls playerControls;
 
     [Header("Parameters")]
@@ -89,7 +89,7 @@ public class SongHandler : MonoBehaviour
             if((gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
             } else if((gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
-                if(playerOne.SpendMana(1)){
+                if(playerLeft.SpendMana(1)){
                     SpawnNote(1, lane, pressTime);
                 }
             }
@@ -108,7 +108,7 @@ public class SongHandler : MonoBehaviour
             if((gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
                 RegisterHit(lane, pressTime);
             } else if((gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
-                if(playerTwo.SpendMana(1)){
+                if(playerRight.SpendMana(1)){
                     SpawnNote(2, lane, pressTime);
                 }
             }
@@ -166,14 +166,20 @@ public class SongHandler : MonoBehaviour
             }
             turns += 1;
             gameState = (gameState + 1) % 4;
+            //Mana is refreshed directly after the attack, but only visually shown during the next attack
+            //This avoids being out of mana on your first hit
             if(gameState == 0){
                 turnDisplay.text = "Right Player Attack";
+                playerRight.ManaBarUpdate();
             } else if(gameState == 1){
                 turnDisplay.text = "Left Player Defend";
+                playerRight.mana = Mathf.Floor(playerRight.maxMana);
             } else if(gameState == 2){
                 turnDisplay.text = "Left Player Attack";
+                playerLeft.ManaBarUpdate();
             } else if(gameState == 3){
                 turnDisplay.text = "Right Player Defend";
+                playerLeft.mana = Mathf.Floor(playerLeft.maxMana);
             }
         }
     }
@@ -218,7 +224,8 @@ public class SongHandler : MonoBehaviour
                 //really wish I knew how to do this in one check
                 //lmk if you think of anything
                 if(error < 0.2f || error > Song.timeSig - 0.2f){
-                    Debug.Log("Note hit in lane " + lane + " with error " + ((error < 1) ? error : Song.timeSig - error));
+                    Debug.Log("Note hit in lane " + lane + " with error " + ((error < 1) ? error : -Song.timeSig + error));
+                    Destroy(noteList[i].obj);
                     noteList.RemoveAt(i);
                     break;
                 }

@@ -420,8 +420,8 @@ MonoBehaviour:
   - {fileID: 1811947532}
   - {fileID: 1008205743}
   - {fileID: 1507313144}
-  playerOne: {fileID: 1354307145}
-  playerTwo: {fileID: 787596526}
+  playerLeft: {fileID: 1354307145}
+  playerRight: {fileID: 787596526}
   bpm: 120
   timeSig: 8
   scrollSpeed: 1
@@ -1278,7 +1278,7 @@ GameObject:
   - component: {fileID: 787596526}
   - component: {fileID: 787596524}
   m_Layer: 0
-  m_Name: Player 2
+  m_Name: Player Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1376,6 +1376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   mana: 0
   health: 0
+  maxMana: 0
   healthBar: {fileID: 1658800160}
   healthImage: {fileID: 1775711535}
   manaBar: {fileID: 954229230}
@@ -2223,7 +2224,7 @@ GameObject:
   - component: {fileID: 1354307145}
   - component: {fileID: 1354307143}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2321,6 +2322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   mana: 0
   health: 0
+  maxMana: 0
   healthBar: {fileID: 1307130701}
   healthImage: {fileID: 1463775647}
   manaBar: {fileID: 1776152927}
