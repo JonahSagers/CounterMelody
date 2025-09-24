@@ -94,9 +94,9 @@ public class SongHandler : MonoBehaviour
             sfxPlayer.PlayOneShot(sounds[3]);
         }
         if(lane >= 0){
-            if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
+            if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.5f)){
                 RegisterHit(lane, pressTime);
-            } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
+            } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.5f)){
                 if(playerLeft.SpendMana(1)){
                     SpawnNote(1, lane, pressTime);
                     playerLeft.attackTime = 2f;
@@ -118,9 +118,9 @@ public class SongHandler : MonoBehaviour
             sfxPlayer.PlayOneShot(sounds[7]);
         }
         if(lane >= 0){
-            if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
+            if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.5f)){
                 RegisterHit(lane, pressTime);
-            } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
+            } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.5f)){
                 if(playerRight.SpendMana(1)){
                     SpawnNote(2, lane, pressTime);
                     playerRight.attackTime = 2f;
@@ -202,13 +202,13 @@ public class SongHandler : MonoBehaviour
             //This avoids being out of mana on your first hit
             if(Song.gameState == 0){
                 turnDisplay.text = "Right Player Attack";
-                playerRight.ManaBarUpdate();
+                StartCoroutine(playerRight.ManaBarUpdate());
             } else if(Song.gameState == 1){
                 turnDisplay.text = "Left Player Defend";
                 playerRight.mana = Mathf.Floor(playerRight.maxMana);
             } else if(Song.gameState == 2){
                 turnDisplay.text = "Left Player Attack";
-                playerLeft.ManaBarUpdate();
+                StartCoroutine(playerLeft.ManaBarUpdate());
             } else if(Song.gameState == 3){
                 turnDisplay.text = "Right Player Defend";
                 playerLeft.mana = Mathf.Floor(playerLeft.maxMana);
