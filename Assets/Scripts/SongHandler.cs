@@ -82,12 +82,16 @@ public class SongHandler : MonoBehaviour
         int lane = -1;
         if(keyName == "w"){
             lane = 0;
+            sfxPlayer.PlayOneShot(sounds[6]);
         } else if(keyName == "a"){
             lane = 1;
+            sfxPlayer.PlayOneShot(sounds[5]);
         } else if(keyName == "d"){
             lane = 2;
+            sfxPlayer.PlayOneShot(sounds[4]);
         } else if(keyName == "s"){
             lane = 3;
+            sfxPlayer.PlayOneShot(sounds[3]);
         }
         if(lane >= 0){
             if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.1f)){
@@ -102,12 +106,16 @@ public class SongHandler : MonoBehaviour
         }
         if(keyName == "upArrow"){
             lane = 0;
+            sfxPlayer.PlayOneShot(sounds[10]);
         } else if(keyName == "leftArrow"){
             lane = 1;
+            sfxPlayer.PlayOneShot(sounds[9]);
         } else if(keyName == "rightArrow"){
             lane = 2;
+            sfxPlayer.PlayOneShot(sounds[8]);
         } else if(keyName == "downArrow"){
             lane = 3;
+            sfxPlayer.PlayOneShot(sounds[7]);
         }
         if(lane >= 0){
             if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.1f)){
@@ -126,7 +134,7 @@ public class SongHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         //First six lines are just debug, remove later
-        int countdown = 4;
+        int countdown = 16;
         bgmPlayer.PlayOneShot(sounds[0]);
         sfxPlayer.PlayOneShot(sounds[1]);
         while(countdown > 0){
@@ -154,7 +162,7 @@ public class SongHandler : MonoBehaviour
             }
 
             while(!newMeasure){
-                timingDisplay.text = (Song.elapsed + 1).ToString();
+                // timingDisplay.text = (Song.elapsed + 1).ToString();
                 Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * turns;
                 if(Song.elapsed > Song.timeSig){
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);

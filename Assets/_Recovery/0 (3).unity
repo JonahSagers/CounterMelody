@@ -1566,7 +1566,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 7d31d3e66803d014e88d005f116d95cb, type: 3}
   - {fileID: 21300000, guid: 11562d745e995d240848d7b80caa8c9d, type: 3}
   attackTime: 0
-  sounds: []
 --- !u!1 &823748148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2869,7 +2868,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 404af78b07515f94aaa7acc3f7275bb3, type: 3}
   - {fileID: 21300000, guid: f3e69338b7547e741b3df85507580394, type: 3}
   attackTime: 0
-  sounds: []
 --- !u!1 &1463775645
 GameObject:
   m_ObjectHideFlags: 0
