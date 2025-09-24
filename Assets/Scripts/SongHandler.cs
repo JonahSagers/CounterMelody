@@ -230,9 +230,9 @@ public class SongHandler : MonoBehaviour
         int bestIndex = 0;
         float bestDist = 1.0f;
 
-        if(pressTime > 7 && pressTime < 7.8f){
+        if(pressTime > 7 && pressTime < 7.5f){
             pressTime = 7;
-        } else if(pressTime > 7.8f){
+        } else if(pressTime > 7.5f){
             pressTime -= 8;
         }
         
@@ -277,10 +277,10 @@ public class SongHandler : MonoBehaviour
                 error = (error < 1) ? error : -Song.timeSig + error;
                 //really wish I knew how to do this in one check
                 //lmk if you think of anything
-                if(Mathf.Abs(error) < 0.2f){
+                if(Mathf.Abs(error) < 1f){
                     Debug.Log("Note hit in lane " + lane + " with error " + error);
                     GameObject judgement = Instantiate(judgementPre, ((Song.gameState < 2) ? leftLanes[lane] : rightLanes[lane]).transform.position, Quaternion.identity);
-                    if(Mathf.Abs(error) < 0.1f){
+                    if(Mathf.Abs(error) < 0.05f){
                         judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Perfect";
                         if(Song.gameState < 2){
                             playerLeft.maxMana += 0.25f;
@@ -295,6 +295,16 @@ public class SongHandler : MonoBehaviour
                                 playerRight.mana += 1.0f;
                             }
                             playerRight.ManaBarScale();
+                        }
+                    } else if(Mathf.Abs(error) < 0.15f){
+                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Good";
+                    } else {
+                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Bad";
+                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().color = Color.red;
+                        if(Song.gameState < 2){
+                            playerLeft.TakeDamage(0.5f);
+                        } else {
+                            playerRight.TakeDamage(0.5f);
                         }
                     }
                     Destroy(noteList[i].obj);
