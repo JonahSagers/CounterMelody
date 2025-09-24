@@ -21,6 +21,9 @@ public class SongHandler : MonoBehaviour
     public PlayerController playerRight;
     private PlayerControls playerControls;
     public GameObject judgementPre;
+    public GameObject measurePre;
+    public Transform measureSpawnLeft;
+    public Transform measureSpawnRight;
 
     [Header("Parameters")]
     public float bpm;
@@ -123,7 +126,7 @@ public class SongHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         //First six lines are just debug, remove later
-        int countdown = 16;
+        int countdown = 4;
         bgmPlayer.PlayOneShot(sounds[0]);
         sfxPlayer.PlayOneShot(sounds[1]);
         while(countdown > 0){
@@ -158,16 +161,25 @@ public class SongHandler : MonoBehaviour
                     newMeasure = true;
                 }
                 float substep = Song.elapsed - (int)Song.elapsed;
-                float substepScale = 1.2f - substep/5;
+                float substepScale = 1.1f - substep/10;
 
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
-                // if(substep < 0.5f){
+                // if(substep < 0.5f && Song.elapsed < Song.timeSig){
                 //     if(metronomeLatch){
-                //         if(Song.elapsed < 0.5f){
-                //             sfxPlayer.PlayOneShot(sounds[1]);
-                //         } else {
-                //             sfxPlayer.PlayOneShot(sounds[2]);
+                //         if(Song.gameState == 0){
+                //             GameObject measureObj = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity);
+                //             MeasureLine measureLine = measureObj.GetComponent<MeasureLine>();
+                //             measureLine.target = measureSpawnLeft;
+                //         } else if(Song.gameState == 2){
+                //             GameObject measureObj = Instantiate(measurePre, measureSpawnLeft.position, Quaternion.identity);
+                //             MeasureLine measureLine = measureObj.GetComponent<MeasureLine>();
+                //             measureLine.target = measureSpawnRight;
                 //         }
+                //         // if(Song.elapsed < 0.5f){
+                //         //     sfxPlayer.PlayOneShot(sounds[1]);
+                //         // } else {
+                //         //     sfxPlayer.PlayOneShot(sounds[2]);
+                //         // }
                         
                 //         metronomeLatch = false;
                 //     }

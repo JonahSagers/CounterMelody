@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5873a0885149ce347a51a4a62d6b39e2
+guid: c7ef9c20fe4bb4549afb01fc50ff4978
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4368330969805363297
-    second: quarter note_0
+      213: -2907404051404558848
+    second: quarter_note_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 32
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -96,17 +96,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: quarter note_0
+      name: quarter_note_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 1
-        width: 8
-        height: 14
+        x: 0
+        y: 0
+        width: 19
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 16816946fdd6f9c30800000000000000
-      internalID: 4368330969805363297
+      spriteID: 00eef795b63d6a7d0800000000000000
+      internalID: -2907404051404558848
       vertices: []
       indices: 
       edges: []
@@ -135,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      quarter note_0: 4368330969805363297
+      quarter_note_0: -2907404051404558848
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
