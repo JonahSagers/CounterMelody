@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class PlayerController : MonoBehaviour
     public Image manaImage;
     private Coroutine healthBarRoutine;
     private Coroutine manaBarRoutine;
+    public SpriteRenderer render;
+    public List<Sprite> sprites;
+    public float attackTime;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,7 +28,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(attackTime > 0){
+            render.sprite = sprites[2];
+            attackTime -= Time.deltaTime;
+        } else if(Song.elapsed % 4 < 2){
+            render.sprite = sprites[0];
+        } else {
+            render.sprite = sprites[1];
+        }
     }
 
     public void TakeDamage(float damage)

@@ -92,6 +92,7 @@ public class SongHandler : MonoBehaviour
             } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.1f)){
                 if(playerLeft.SpendMana(1)){
                     SpawnNote(1, lane, pressTime);
+                    playerLeft.attackTime = 2f;
                 }
             }
             return;
@@ -111,6 +112,7 @@ public class SongHandler : MonoBehaviour
             } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.1f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.1f)){
                 if(playerRight.SpendMana(1)){
                     SpawnNote(2, lane, pressTime);
+                    playerRight.attackTime = 2f;
                 }
             }
             return;
@@ -121,8 +123,9 @@ public class SongHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         //First six lines are just debug, remove later
-        int countdown = 4;
-        sfxPlayer.PlayOneShot(sounds[0]);
+        int countdown = 16;
+        bgmPlayer.PlayOneShot(sounds[0]);
+        sfxPlayer.PlayOneShot(sounds[1]);
         while(countdown > 0){
             turnDisplay.text = countdown.ToString();
             yield return new WaitForSeconds(0.5f);
@@ -158,19 +161,19 @@ public class SongHandler : MonoBehaviour
                 float substepScale = 1.2f - substep/5;
 
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
-                if(substep < 0.5f){
-                    if(metronomeLatch){
-                        if(Song.elapsed < 0.5f){
-                            sfxPlayer.PlayOneShot(sounds[0]);
-                        } else {
-                            sfxPlayer.PlayOneShot(sounds[1]);
-                        }
+                // if(substep < 0.5f){
+                //     if(metronomeLatch){
+                //         if(Song.elapsed < 0.5f){
+                //             sfxPlayer.PlayOneShot(sounds[1]);
+                //         } else {
+                //             sfxPlayer.PlayOneShot(sounds[2]);
+                //         }
                         
-                        metronomeLatch = false;
-                    }
-                } else {
-                    metronomeLatch = true;
-                }
+                //         metronomeLatch = false;
+                //     }
+                // } else {
+                //     metronomeLatch = true;
+                // }
                 yield return 0;
             }
             turns += 1;
