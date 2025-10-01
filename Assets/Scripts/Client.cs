@@ -6,9 +6,11 @@ using LiteNetLib;
 public class Client : MonoBehaviour {
     NetManager netManager;
     EventBasedNetListener netListener;
+    public string serverIp;
 
     // Start is called before the first frame update
-    void Start() {
+    public void Activate(string ip) {
+        serverIp = ip;
         netListener = new EventBasedNetListener();
         netListener.PeerConnectedEvent += (server) => {
             Debug.Log($"Connected to server: {server}");
@@ -21,13 +23,18 @@ public class Client : MonoBehaviour {
         };
 
         netManager = new NetManager(netListener);
-        netManager.Start(); // Don't forget to call .Start()!
-        netManager.Connect("localhost", 9050, "");
+        netManager.Start();
+        netManager.Connect(serverIp, 9050, "");
+        StartCoroutine(ClientLoop());
     }
 
     // Update is called once per frame
-    void Update() {
-        netManager.PollEvents();
+    public IEnumerator ClientLoop() {
+        //Replace true with a server check maybe?
+        while(true){
+            netManager.PollEvents();
+            yield return 0;
+        }
     }
 
     void OnDestroy() {

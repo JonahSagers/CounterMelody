@@ -30,7 +30,8 @@ public class Server : MonoBehaviour {
         };
 
         netManager = new NetManager(netListener);
-        netManager.Start(9050); // <--- IMPORTANT: Start server on port 9050
+        netManager.Start(9050); //Start on port 9050
+        Debug.Log("Server started!");
     }
 
     void Update() {
