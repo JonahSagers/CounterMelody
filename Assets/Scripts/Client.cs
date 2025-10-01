@@ -11,16 +11,26 @@ public class Client : MonoBehaviour {
     void Start() {
         netListener = new EventBasedNetListener();
         netListener.PeerConnectedEvent += (server) => {
-            Debug.LogError($"Connected to server: {server}");
+            Debug.Log($"Connected to server: {server}");
+        };
+        netListener.PeerDisconnectedEvent += (server, info) => {
+            Debug.Log($"Disconnected: {info.Reason}");
+        };
+        netListener.NetworkErrorEvent += (endPoint, socketError) => {
+            Debug.LogError($"Network error: {socketError}");
         };
 
         netManager = new NetManager(netListener);
         netManager.Start(); // Don't forget to call .Start()!
-        netManager.Connect("127.0.0.1", 9050, "");
+        netManager.Connect("localhost", 9050, "");
     }
 
     // Update is called once per frame
     void Update() {
         netManager.PollEvents();
+    }
+
+    void OnDestroy() {
+        netManager.Stop();
     }
 }
