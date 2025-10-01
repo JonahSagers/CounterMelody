@@ -24,6 +24,8 @@ public class SongHandler : MonoBehaviour
     public GameObject measurePre;
     public Transform measureSpawnLeft;
     public Transform measureSpawnRight;
+    public Animator anim;
+    public Animator logoAnim;
 
     [Header("Parameters")]
     public float bpm;
@@ -132,7 +134,10 @@ public class SongHandler : MonoBehaviour
 
     public IEnumerator Metronome()
     {
-        yield return new WaitForSeconds(0.5f);
+        logoAnim.Play("LogoTop");
+        yield return new WaitForSeconds(1f);
+        anim.Play("SpawnLines");
+        yield return new WaitForSeconds(1f);
         //First six lines are just debug, remove later
         int countdown = 16;
         bgmPlayer.PlayOneShot(sounds[0]);

@@ -4,6 +4,7 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject serverPre;
     public GameObject clientPre;
+    public GameObject songHandler;
     private Client client;
     private Server server;
     public string serverIp;
@@ -24,6 +25,7 @@ public class MainMenu : MonoBehaviour
         server = Instantiate(serverPre).GetComponent<Server>();
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate("localhost");
+        songHandler.SetActive(true);
         gameObject.SetActive(false);
     }
 
@@ -31,6 +33,7 @@ public class MainMenu : MonoBehaviour
     {
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate(serverIp);
+        songHandler.SetActive(true);
         gameObject.SetActive(false);
     }
 }
