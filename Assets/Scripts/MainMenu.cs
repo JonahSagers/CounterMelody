@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate("localhost");
         songHandler.SetActive(true);
+        songHandler.GetComponent<SongHandler>().client = client;
         gameObject.SetActive(false);
     }
 

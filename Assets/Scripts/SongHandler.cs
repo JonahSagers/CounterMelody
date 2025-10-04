@@ -26,6 +26,7 @@ public class SongHandler : MonoBehaviour
     public Transform measureSpawnRight;
     public Animator anim;
     public Animator logoAnim;
+    public Client client;
 
     [Header("Parameters")]
     public float bpm;
@@ -80,6 +81,12 @@ public class SongHandler : MonoBehaviour
         float pressTime = Mathf.Repeat((pressRaw / 60.0f * Song.bpm), Song.timeSig);
 
         string keyName = context.control.name;
+        
+        HitPacket packet = new HitPacket();
+        packet.timestamp = pressTime;
+        packet.keyName = keyName;
+
+        client.SendInputPacket(packet);
 
         int lane = -1;
         if(keyName == "w"){

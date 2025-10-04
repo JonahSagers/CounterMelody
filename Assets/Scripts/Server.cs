@@ -1,24 +1,46 @@
-// Server.cs
 using System.Collections;
 using System.Collections.Generic;
 using LiteNetLib;
+using LiteNetLib.Utils;
 using UnityEngine;
 
 public class Server : MonoBehaviour {
     EventBasedNetListener netListener;
     NetManager netManager;
+    NetDataWriter writer;
 
     void Start() {
         Debug.Log("Starting server...");
         netListener = new EventBasedNetListener();
+        writer = new NetDataWriter();
 
-        // Accept all incoming connections
+        netListener.NetworkReceiveEvent += (peer, reader, method, channel) => {
+            string msg = reader.GetString();
+            Debug.Log($"[Client -> Server] {msg}");
+            reader.Recycle();
+
+            // Example: rebroadcast to other clients
+            foreach (var p in netManager.ConnectedPeerList) {
+                if (p != peer) {
+                    writer.Reset();
+                    writer.Put(msg);
+                    p.Send(writer, DeliveryMethod.ReliableOrdered);
+                }
+            }
+        };
+
         netListener.ConnectionRequestEvent += (request) => {
-            request.Accept();
+            //Check whether this includes the host client
+            if (netManager.ConnectedPeersCount < 2){
+                request.Accept();
+            } else {
+                request.Reject();
+            }
         };
 
         netListener.PeerConnectedEvent += (client) => {
-            Debug.Log($"Client connected: {client}");
+            //Debug.Log($"Client connected: {client}");
+            PlayerJoin();
         };
 
         netListener.PeerDisconnectedEvent += (client, info) => {
@@ -34,11 +56,18 @@ public class Server : MonoBehaviour {
         Debug.Log("Server started!");
     }
 
-    void Update() {
+    void Update()
+     {
         netManager.PollEvents();
     }
 
-    void OnDestroy() {
+    void OnDestroy() 
+    {
         netManager.Stop(); // Clean shutdown
+    }
+
+    void PlayerJoin()
+    {
+
     }
 }

@@ -2,18 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using LiteNetLib;
+using LiteNetLib.Utils;
 
 public class Client : MonoBehaviour {
     NetManager netManager;
+    NetPeer serverPeer;
     EventBasedNetListener netListener;
+    NetDataWriter writer;
     public string serverIp;
 
     // Start is called before the first frame update
-    public void Activate(string ip) {
+    public void Activate(string ip)
+    {
         serverIp = ip;
         netListener = new EventBasedNetListener();
+        writer = new NetDataWriter();
         netListener.PeerConnectedEvent += (server) => {
             Debug.Log($"Connected to server: {server}");
+            serverPeer = server;
         };
         netListener.PeerDisconnectedEvent += (server, info) => {
             Debug.Log($"Disconnected: {info.Reason}");
@@ -29,11 +35,22 @@ public class Client : MonoBehaviour {
     }
 
     // Update is called once per frame
-    public IEnumerator ClientLoop() {
+    public IEnumerator ClientLoop()
+    {
         //Replace true with a server check maybe?
         while(true){
             netManager.PollEvents();
             yield return 0;
+        }
+    }
+
+    public void SendInputPacket(HitPacket packet)
+    {
+        if (serverPeer != null && serverPeer.ConnectionState == ConnectionState.Connected) {
+            string json = JsonUtility.ToJson(packet);
+            writer.Reset();
+            writer.Put(json); 
+            serverPeer.Send(writer, DeliveryMethod.Unreliable);
         }
     }
 
