@@ -75,15 +75,16 @@ public class SongHandler : MonoBehaviour
         string pressedKey = context.control.path;
 
         // Get the exact time the event occurred (in seconds since the game started)
-        float pressRaw = (float)context.time - startTime;
+        float timestamp = (float)context.time - startTime;
 
         // Convert the time to milliseconds
-        float pressTime = Mathf.Repeat((pressRaw / 60.0f * Song.bpm), Song.timeSig);
+        float pressTime = Mathf.Repeat((timestamp / 60.0f * Song.bpm), Song.timeSig);
 
         string keyName = context.control.name;
         
         HitPacket packet = new HitPacket();
-        packet.timestamp = pressTime;
+        packet.type = "HitPacket";
+        packet.timestamp = timestamp;
         packet.keyName = keyName;
 
         client.SendInputPacket(packet);

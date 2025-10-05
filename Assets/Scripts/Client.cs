@@ -17,6 +17,11 @@ public class Client : MonoBehaviour {
         serverIp = ip;
         netListener = new EventBasedNetListener();
         writer = new NetDataWriter();
+        netListener.NetworkReceiveEvent += (peer, reader, method, channel) => {
+            string msg = reader.GetString();
+            Debug.Log($"[Server -> Client] {msg}");
+            reader.Recycle();
+        };
         netListener.PeerConnectedEvent += (server) => {
             Debug.Log($"Connected to server: {server}");
             serverPeer = server;
