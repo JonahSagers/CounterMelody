@@ -10,6 +10,7 @@ public class Client : MonoBehaviour {
     EventBasedNetListener netListener;
     NetDataWriter writer;
     public string serverIp;
+    private SongHandler songHandler;
 
     // Start is called before the first frame update
     public void Activate(string ip)
@@ -17,9 +18,18 @@ public class Client : MonoBehaviour {
         serverIp = ip;
         netListener = new EventBasedNetListener();
         writer = new NetDataWriter();
+        songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
+
         netListener.NetworkReceiveEvent += (peer, reader, method, channel) => {
             string msg = reader.GetString();
             Debug.Log($"[Server -> Client] {msg}");
+            GenericPacket genericPacket = JsonUtility.FromJson<GenericPacket>(msg);
+
+            if(genericPacket.type == "HitPacket"){
+                HitPacket hitPacket = JsonUtility.FromJson<HitPacket>(msg);
+                songHandler.PacketInput(hitPacket);
+            }
+
             reader.Recycle();
         };
         netListener.PeerConnectedEvent += (server) => {

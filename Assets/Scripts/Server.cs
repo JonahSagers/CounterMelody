@@ -31,11 +31,14 @@ public class Server : MonoBehaviour {
 
         netListener.ConnectionRequestEvent += (request) => {
             //Check whether this includes the host client
-            if (netManager.ConnectedPeersCount < 2){
+            if (netManager.ConnectedPeersCount < 3){
                 request.Accept();
+                Debug.Log($"Player joined");
             } else {
                 request.Reject();
+                Debug.Log($"Server full, player rejected");
             }
+            
         };
 
         netListener.PeerConnectedEvent += (client) => {

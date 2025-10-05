@@ -22,19 +22,22 @@ public class MainMenu : MonoBehaviour
 
     public void StartServer()
     {
+        songHandler.SetActive(true);
         server = Instantiate(serverPre).GetComponent<Server>();
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate("localhost");
-        songHandler.SetActive(true);
         songHandler.GetComponent<SongHandler>().client = client;
+        songHandler.GetComponent<SongHandler>().playerID = 1;
         gameObject.SetActive(false);
     }
 
     public void JoinServer()
     {
+        songHandler.SetActive(true);
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate(serverIp);
-        songHandler.SetActive(true);
+        songHandler.GetComponent<SongHandler>().client = client;
+        songHandler.GetComponent<SongHandler>().playerID = 2;
         gameObject.SetActive(false);
     }
 }

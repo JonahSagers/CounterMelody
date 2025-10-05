@@ -29,6 +29,7 @@ public class SongHandler : MonoBehaviour
     public Client client;
 
     [Header("Parameters")]
+    public int playerID;
     public float bpm;
     public float timeSig;
     public float scrollSpeed;
@@ -77,67 +78,79 @@ public class SongHandler : MonoBehaviour
         // Get the exact time the event occurred (in seconds since the game started)
         float timestamp = (float)context.time - startTime;
 
-        // Convert the time to milliseconds
-        float pressTime = Mathf.Repeat((timestamp / 60.0f * Song.bpm), Song.timeSig);
-
         string keyName = context.control.name;
         
         HitPacket packet = new HitPacket();
         packet.type = "HitPacket";
+        packet.player = playerID;
         packet.timestamp = timestamp;
         packet.keyName = keyName;
 
         client.SendInputPacket(packet);
+        //If the packet is sent by this machine, run the command without waiting for a response
+        PacketInput(packet);
+        
+    }
+
+    public void PacketInput(HitPacket packet)
+    {
+        string keyName = packet.keyName;
+        float pressTime = Mathf.Repeat((packet.timestamp / 60.0f * Song.bpm), Song.timeSig);
 
         int lane = -1;
-        if(keyName == "w"){
-            lane = 0;
-            sfxPlayer.PlayOneShot(sounds[6]);
-        } else if(keyName == "a"){
-            lane = 1;
-            sfxPlayer.PlayOneShot(sounds[5]);
-        } else if(keyName == "d"){
-            lane = 2;
-            sfxPlayer.PlayOneShot(sounds[4]);
-        } else if(keyName == "s"){
-            lane = 3;
-            sfxPlayer.PlayOneShot(sounds[3]);
-        }
-        if(lane >= 0){
-            if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.5f)){
-                RegisterHit(lane, pressTime);
-            } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.5f)){
-                if(playerLeft.SpendMana(1)){
-                    SpawnNote(1, lane, pressTime);
-                    playerLeft.attackTime = 2f;
-                }
+        if(packet.player == 1){
+            if(keyName == "w"){
+                lane = 0;
+                sfxPlayer.PlayOneShot(sounds[6]);
+            } else if(keyName == "a"){
+                lane = 1;
+                sfxPlayer.PlayOneShot(sounds[5]);
+            } else if(keyName == "d"){
+                lane = 2;
+                sfxPlayer.PlayOneShot(sounds[4]);
+            } else if(keyName == "s"){
+                lane = 3;
+                sfxPlayer.PlayOneShot(sounds[3]);
             }
-            return;
-        }
-        if(keyName == "upArrow"){
-            lane = 0;
-            sfxPlayer.PlayOneShot(sounds[10]);
-        } else if(keyName == "leftArrow"){
-            lane = 1;
-            sfxPlayer.PlayOneShot(sounds[9]);
-        } else if(keyName == "rightArrow"){
-            lane = 2;
-            sfxPlayer.PlayOneShot(sounds[8]);
-        } else if(keyName == "downArrow"){
-            lane = 3;
-            sfxPlayer.PlayOneShot(sounds[7]);
-        }
-        if(lane >= 0){
-            if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.5f)){
-                RegisterHit(lane, pressTime);
-            } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.5f)){
-                if(playerRight.SpendMana(1)){
-                    SpawnNote(2, lane, pressTime);
-                    playerRight.attackTime = 2f;
+            if(lane >= 0){
+                if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.5f)){
+                    RegisterHit(lane, pressTime);
+                } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.5f)){
+                    if(playerLeft.SpendMana(1)){
+                        SpawnNote(1, lane, pressTime);
+                        playerLeft.attackTime = 2f;
+                    }
                 }
+                return;
             }
-            return;
+        } else if(packet.player == 2){
+            if(keyName == "upArrow"){
+                lane = 0;
+                sfxPlayer.PlayOneShot(sounds[10]);
+            } else if(keyName == "leftArrow"){
+                lane = 1;
+                sfxPlayer.PlayOneShot(sounds[9]);
+            } else if(keyName == "rightArrow"){
+                lane = 2;
+                sfxPlayer.PlayOneShot(sounds[8]);
+            } else if(keyName == "downArrow"){
+                lane = 3;
+                sfxPlayer.PlayOneShot(sounds[7]);
+            }
+            if(lane >= 0){
+                if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.5f)){
+                    RegisterHit(lane, pressTime);
+                } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.5f)){
+                    if(playerRight.SpendMana(1)){
+                        SpawnNote(2, lane, pressTime);
+                        playerRight.attackTime = 2f;
+                    }
+                }
+                return;
+            }
         }
+        
+        
     }
 
     public IEnumerator Metronome()

@@ -8,6 +8,7 @@ public class GenericPacket {
 [System.Serializable]
 public struct HitPacket {
     public string type;
+    public int player;
     public float timestamp;
     public string keyName;
 }
