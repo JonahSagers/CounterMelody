@@ -12,3 +12,9 @@ public struct HitPacket {
     public float timestamp;
     public string keyName;
 }
+
+[System.Serializable]
+public struct SongPacket {
+    public string type;
+    public string name;
+}

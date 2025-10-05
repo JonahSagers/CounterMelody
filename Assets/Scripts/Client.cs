@@ -28,6 +28,9 @@ public class Client : MonoBehaviour {
             if(genericPacket.type == "HitPacket"){
                 HitPacket hitPacket = JsonUtility.FromJson<HitPacket>(msg);
                 songHandler.PacketInput(hitPacket);
+            } else if(genericPacket.type == "SongPacket"){
+                SongPacket songPacket = JsonUtility.FromJson<SongPacket>(msg);
+                StartCoroutine(songHandler.Metronome());
             }
 
             reader.Recycle();
@@ -59,12 +62,11 @@ public class Client : MonoBehaviour {
         }
     }
 
-    public void SendInputPacket(HitPacket packet)
+    public void SendPacket(string packet)
     {
         if (serverPeer != null && serverPeer.ConnectionState == ConnectionState.Connected) {
-            string json = JsonUtility.ToJson(packet);
             writer.Reset();
-            writer.Put(json); 
+            writer.Put(packet); 
             serverPeer.Send(writer, DeliveryMethod.Unreliable);
         }
     }

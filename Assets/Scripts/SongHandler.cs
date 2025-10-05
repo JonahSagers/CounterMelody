@@ -67,6 +67,16 @@ public class SongHandler : MonoBehaviour
         playerControls.Player.RightLane2.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane3.performed += ctx => GetInput(ctx);
         
+        //StartCoroutine(Metronome());
+    }
+
+    public void StartGame()
+    {
+        SongPacket packet = new SongPacket();
+        packet.type = "SongPacket";
+        packet.name = "default";
+        string json = JsonUtility.ToJson(packet);
+        client.SendPacket(json);
         StartCoroutine(Metronome());
     }
 
@@ -85,8 +95,9 @@ public class SongHandler : MonoBehaviour
         packet.player = playerID;
         packet.timestamp = timestamp;
         packet.keyName = keyName;
+        string json = JsonUtility.ToJson(packet);
 
-        client.SendInputPacket(packet);
+        client.SendPacket(json);
         //If the packet is sent by this machine, run the command without waiting for a response
         PacketInput(packet);
         

@@ -33,7 +33,11 @@ public class Server : MonoBehaviour {
             //Check whether this includes the host client
             if (netManager.ConnectedPeersCount < 3){
                 request.Accept();
-                Debug.Log($"Player joined");
+                Debug.Log($"Player {netManager.ConnectedPeersCount} joined");
+                if(netManager.ConnectedPeersCount == 2){
+                    SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
+                    songHandler.StartGame();
+                }
             } else {
                 request.Reject();
                 Debug.Log($"Server full, player rejected");
@@ -41,10 +45,9 @@ public class Server : MonoBehaviour {
             
         };
 
-        netListener.PeerConnectedEvent += (client) => {
-            //Debug.Log($"Client connected: {client}");
-            PlayerJoin();
-        };
+        // netListener.PeerConnectedEvent += (client) => {
+        //     //Debug.Log($"Client connected: {client}");
+        // };
 
         netListener.PeerDisconnectedEvent += (client, info) => {
             Debug.Log($"Client disconnected: {info.Reason}");
@@ -60,17 +63,12 @@ public class Server : MonoBehaviour {
     }
 
     void Update()
-     {
+    {
         netManager.PollEvents();
     }
 
     void OnDestroy() 
     {
         netManager.Stop(); // Clean shutdown
-    }
-
-    void PlayerJoin()
-    {
-
     }
 }
