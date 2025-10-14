@@ -199,8 +199,8 @@ public class SongHandler : MonoBehaviour
             }
 
             while(!newMeasure){
-                // timingDisplay.text = (Song.elapsed + 1).ToString();
-                Song.elapsedRaw = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm;
+                timingDisplay.text = Song.elapsedRaw.ToString();
+                Song.elapsedRaw = Time.realtimeSinceStartup - startTime;
                 Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * turns;
                 if(Song.elapsed > Song.timeSig){
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
@@ -298,10 +298,10 @@ public class SongHandler : MonoBehaviour
         }
         
 
-        // Debug.Log("Spawned note with time: " + pressTime);
+        Debug.Log("Spawned note with time: " + (pressTime + 8 * (60 / Song.bpm)));
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
-        note.GetComponent<NoteMove>().timestamp = pressTime + 8;
+        note.GetComponent<NoteMove>().timestamp = pressTime + 8 * (60 / Song.bpm);
         noteList.Add((note, pressTime, lane));
     }
 
