@@ -297,12 +297,12 @@ public class SongHandler : MonoBehaviour
             }
         }
         
-
-        Debug.Log("Spawned note with time: " + (pressTime + 8 * (60 / Song.bpm)));
+        float noteTime = (pressTime + 8 * (60 / Song.bpm));
+        Debug.Log("Spawned note with time: " + noteTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
-        note.GetComponent<NoteMove>().timestamp = pressTime + 8 * (60 / Song.bpm);
-        noteList.Add((note, pressTime, lane));
+        note.GetComponent<NoteMove>().timestamp = noteTime;
+        noteList.Add((note, noteTime, lane));
     }
 
     //In theory we shouldn't need to differentiate between players for this one
