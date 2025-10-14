@@ -200,11 +200,13 @@ public class SongHandler : MonoBehaviour
 
             while(!newMeasure){
                 // timingDisplay.text = (Song.elapsed + 1).ToString();
+                Song.elapsedRaw = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm;
                 Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * turns;
                 if(Song.elapsed > Song.timeSig){
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
                     newMeasure = true;
                 }
+                Debug.Log(Song.elapsed);
                 float substep = Song.elapsed - (int)Song.elapsed;
                 float substepScale = 1.1f - substep/10;
 
@@ -300,7 +302,7 @@ public class SongHandler : MonoBehaviour
         Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
-        note.GetComponent<NoteMove>().travelTime = offset;
+        note.GetComponent<NoteMove>().timestamp = pressTime + 8;
         noteList.Add((note, pressTime, lane));
     }
 
