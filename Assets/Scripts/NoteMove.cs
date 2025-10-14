@@ -9,6 +9,7 @@ public class NoteMove : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
+        Debug.Log(timestamp);
     }
 
     // Update is called once per frame

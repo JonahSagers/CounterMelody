@@ -106,7 +106,7 @@ public class SongHandler : MonoBehaviour
     public void PacketInput(HitPacket packet)
     {
         string keyName = packet.keyName;
-        float pressTime = Mathf.Repeat((packet.timestamp / 60.0f * Song.bpm), Song.timeSig);
+        float pressTime = packet.timestamp;
 
         int lane = -1;
         if(packet.player == 1){
@@ -206,7 +206,6 @@ public class SongHandler : MonoBehaviour
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
                     newMeasure = true;
                 }
-                Debug.Log(Song.elapsed);
                 float substep = Song.elapsed - (int)Song.elapsed;
                 float substepScale = 1.1f - substep/10;
 
@@ -269,21 +268,21 @@ public class SongHandler : MonoBehaviour
         int bestIndex = 0;
         float bestDist = 1.0f;
 
-        if(pressTime > 7 && pressTime < 7.5f){
-            pressTime = 7;
-        } else if(pressTime > 7.5f){
-            pressTime -= 8;
-        }
+        // if(pressTime > 7 && pressTime < 7.5f){
+        //     pressTime = 7;
+        // } else if(pressTime > 7.5f){
+        //     pressTime -= 8;
+        // }
         
-        for(int i = 0; i < allSteps.Count; i++){
-            float tempDist = Mathf.Abs(pressTime - allSteps[i]);
-            if(tempDist < bestDist){
-                bestDist = tempDist;
-                bestIndex = i;
-            }
-        }
-        float offset = pressTime - allSteps[bestIndex];
-        pressTime = allSteps[bestIndex];
+        // for(int i = 0; i < allSteps.Count; i++){
+        //     float tempDist = Mathf.Abs(pressTime - allSteps[i]);
+        //     if(tempDist < bestDist){
+        //         bestDist = tempDist;
+        //         bestIndex = i;
+        //     }
+        // }
+        // float offset = pressTime - allSteps[bestIndex];
+        // pressTime = allSteps[bestIndex];
 
         for(int i = 0; i < noteList.Count; i++){
             if(noteList[i].lane == lane && noteList[i].timing == pressTime){
@@ -299,7 +298,7 @@ public class SongHandler : MonoBehaviour
         }
         
 
-        Debug.Log("Spawned note with time: " + pressTime);
+        // Debug.Log("Spawned note with time: " + pressTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
         note.GetComponent<NoteMove>().timestamp = pressTime + 8;
@@ -317,7 +316,7 @@ public class SongHandler : MonoBehaviour
                 //really wish I knew how to do this in one check
                 //lmk if you think of anything
                 if(Mathf.Abs(error) < 1f){
-                    Debug.Log("Note hit in lane " + lane + " with error " + error);
+                    // Debug.Log("Note hit in lane " + lane + " with error " + error);
                     GameObject judgement = Instantiate(judgementPre, ((Song.gameState < 2) ? leftLanes[lane] : rightLanes[lane]).transform.position, Quaternion.identity);
                     if(Mathf.Abs(error) < 0.05f){
                         judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Perfect";

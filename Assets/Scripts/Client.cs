@@ -22,7 +22,7 @@ public class Client : MonoBehaviour {
 
         netListener.NetworkReceiveEvent += (peer, reader, method, channel) => {
             string msg = reader.GetString();
-            Debug.Log($"[Server -> Client] {msg}");
+            //Debug.Log($"[Server -> Client] {msg}");
             GenericPacket genericPacket = JsonUtility.FromJson<GenericPacket>(msg);
 
             if(genericPacket.type == "HitPacket"){
