@@ -279,24 +279,27 @@ public class SongHandler : MonoBehaviour
         int bestIndex = 0;
         float bestDist = 1.0f;
 
-        // if(pressTime > 7 && pressTime < 7.5f){
-        //     pressTime = 7;
-        // } else if(pressTime > 7.5f){
-        //     pressTime -= 8;
-        // }
+        float noteTime = (pressTime + 8 * (60 / Song.bpm));
+        float noteMod = noteTime % 8;
+        Debug.Log("NoteMod: " + noteMod);
+
+        if(noteMod > 7 && noteMod < 7.5f){
+            noteTime -= noteMod - Mathf.Floor(noteMod);
+        }
         
-        // for(int i = 0; i < allSteps.Count; i++){
-        //     float tempDist = Mathf.Abs(pressTime - allSteps[i]);
-        //     if(tempDist < bestDist){
-        //         bestDist = tempDist;
-        //         bestIndex = i;
-        //     }
-        // }
-        // float offset = pressTime - allSteps[bestIndex];
-        // pressTime = allSteps[bestIndex];
+        for(int i = 0; i < allSteps.Count; i++){
+            float tempDist = Mathf.Abs(noteMod - allSteps[i]);
+            if(tempDist < bestDist){
+                bestDist = tempDist;
+                bestIndex = i;
+            }
+        }
+        float offset = noteMod - allSteps[bestIndex];
+        
+        noteTime -= offset;
 
         for(int i = 0; i < noteList.Count; i++){
-            if(noteList[i].lane == lane && noteList[i].timing == pressTime){
+            if(noteList[i].lane == lane && noteList[i].timing == noteTime){
                 if(player == 1){
                     playerLeft.mana += 1;
                     playerLeft.manaBar.value += 1;
@@ -307,8 +310,7 @@ public class SongHandler : MonoBehaviour
                 return;
             }
         }
-        
-        float noteTime = (pressTime + 8 * (60 / Song.bpm));
+
         Debug.Log("Spawned note with time: " + noteTime);
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
