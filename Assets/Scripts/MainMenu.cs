@@ -1,10 +1,12 @@
 using UnityEngine;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject serverPre;
     public GameObject clientPre;
     public GameObject songHandler;
+    public TMP_InputField ipField;
     private Client client;
     private Server server;
     public string serverIp;
@@ -34,6 +36,9 @@ public class MainMenu : MonoBehaviour
 
     public void JoinServer()
     {
+        if(ipField.text != ""){
+            serverIp = ipField.text;
+        }
         songHandler.SetActive(true);
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate(serverIp);
