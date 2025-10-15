@@ -589,7 +589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &382715787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +626,9 @@ MonoBehaviour:
   measureSpawnRight: {fileID: 923984956}
   anim: {fileID: 382715791}
   logoAnim: {fileID: 1851900055}
+  client: {fileID: 0}
+  online: 0
+  playerID: 0
   bpm: 120
   timeSig: 8
   scrollSpeed: 1
@@ -3415,7 +3418,7 @@ MonoBehaviour:
   serverPre: {fileID: 40026502741433338, guid: 8bb07b13cc252439aac1426859c7f92c, type: 3}
   clientPre: {fileID: 8974039788984329608, guid: 02e61da4241534e13959ea955b881180, type: 3}
   songHandler: {fileID: 382715786}
-  serverIp: localhost
+  serverIp: 192.168.0.193
 --- !u!1 &1463775645
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,7 +4891,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1938417624
 RectTransform:
   m_ObjectHideFlags: 0

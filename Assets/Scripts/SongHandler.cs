@@ -29,6 +29,7 @@ public class SongHandler : MonoBehaviour
     public Client client;
 
     [Header("Parameters")]
+    public bool online;
     public int playerID;
     public float bpm;
     public float timeSig;
@@ -47,8 +48,9 @@ public class SongHandler : MonoBehaviour
     public List<float> allSteps;
 
 
-    void Start()
+    public void Enable()
     {
+        online = true;
         Song.gameState = -1;
         //Song is a static class which is accessible from all scripts, but not the inspector
         //BPM here is just used to set the static version
@@ -92,7 +94,16 @@ public class SongHandler : MonoBehaviour
         
         HitPacket packet = new HitPacket();
         packet.type = "HitPacket";
-        packet.player = playerID;
+        if(online){
+            packet.player = playerID;
+        } else {
+            if("wasd".Contains(keyName)){
+                packet.player = 1;
+            } else {
+                packet.player = 2;
+            }
+        }
+        
         packet.timestamp = timestamp;
         packet.keyName = keyName;
         string json = JsonUtility.ToJson(packet);

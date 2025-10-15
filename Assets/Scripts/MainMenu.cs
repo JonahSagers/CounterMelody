@@ -22,12 +22,13 @@ public class MainMenu : MonoBehaviour
 
     public void StartServer()
     {
-        songHandler.SetActive(true);
         server = Instantiate(serverPre).GetComponent<Server>();
         client = Instantiate(clientPre).GetComponent<Client>();
         client.Activate("localhost");
-        songHandler.GetComponent<SongHandler>().client = client;
-        songHandler.GetComponent<SongHandler>().playerID = 1;
+        SongHandler songScript = songHandler.GetComponent<SongHandler>();
+        songScript.client = client;
+        songScript.playerID = 1;
+        songScript.Enable();
         gameObject.SetActive(false);
     }
 

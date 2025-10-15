@@ -20,7 +20,7 @@ public class NoteMove : MonoBehaviour
         float subSine = Mathf.Sin(Song.elapsed * Mathf.PI);
         transform.rotation = Quaternion.Euler(0, 0, subSine * Mathf.Abs(subSine) * 10);
 
-        transform.position = Vector3.Lerp(startPos, target.position, 1 - (timestamp - Song.elapsedRaw)/8);
+        transform.position = Vector3.Lerp(startPos, target.position, 1 - (timestamp - Song.elapsedRaw)/(8 * 60/Song.bpm));
         if(Song.elapsedRaw > timestamp + 0.5f){
             SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
             for(int i = 0; i < songHandler.noteList.Count; i++){

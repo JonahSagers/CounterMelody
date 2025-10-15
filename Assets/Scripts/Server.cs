@@ -8,8 +8,11 @@ public class Server : MonoBehaviour {
     EventBasedNetListener netListener;
     NetManager netManager;
     NetDataWriter writer;
+    private SongHandler songHandler;
 
     void Start() {
+        SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
+        songHandler.turnDisplay.text = "Waiting for player... (Return to skip)";
         Debug.Log("Starting server...");
         netListener = new EventBasedNetListener();
         writer = new NetDataWriter();
@@ -31,11 +34,11 @@ public class Server : MonoBehaviour {
 
         netListener.ConnectionRequestEvent += (request) => {
             //Check whether this includes the host client
-            if (netManager.ConnectedPeersCount < 3){
+            if (netManager.ConnectedPeersCount < 3 && songHandler.online){
                 request.Accept();
                 Debug.Log($"Player {netManager.ConnectedPeersCount} joined");
                 if(netManager.ConnectedPeersCount == 2){
-                    SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
+                    
                     songHandler.StartGame();
                 }
             } else {
@@ -64,6 +67,14 @@ public class Server : MonoBehaviour {
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Return)){
+            SongHandler songHandler = GameObject.Find("Song Handler").GetComponent<SongHandler>();
+            if(songHandler.online){
+                songHandler.online = false;
+                songHandler.StartGame();
+            }
+            
+        }
         netManager.PollEvents();
     }
 
