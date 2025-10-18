@@ -135,6 +135,8 @@ public class SongHandler : MonoBehaviour
                 sfxPlayer.PlayOneShot(sounds[3]);
             }
             if(lane >= 0){
+                //This could potentially cause a client desync in high ping edge cases
+                //Like if player 1 hits it at 7.499 and then player 2 receives at 7.501
                 if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.5f)){
                     RegisterHit(lane, pressTime);
                 } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.5f)){
@@ -171,8 +173,6 @@ public class SongHandler : MonoBehaviour
                 return;
             }
         }
-        
-        
     }
 
     public IEnumerator Metronome()
@@ -185,12 +185,12 @@ public class SongHandler : MonoBehaviour
         int countdown = 16;
         bgmPlayer.PlayOneShot(sounds[0]);
         sfxPlayer.PlayOneShot(sounds[1]);
-        while(countdown > 0){
-            turnDisplay.text = countdown.ToString();
-            yield return new WaitForSeconds(0.5f);
-            sfxPlayer.PlayOneShot(sounds[1]);
-            countdown -= 1;
-        }
+        // while(countdown > 0){
+        //     turnDisplay.text = countdown.ToString();
+        //     yield return new WaitForSeconds(0.5f);
+        //     sfxPlayer.PlayOneShot(sounds[1]);
+        //     countdown -= 1;
+        // }
         turnDisplay.text = "Right Player Attack";
         
         startTime = Time.realtimeSinceStartup;
@@ -203,10 +203,11 @@ public class SongHandler : MonoBehaviour
             newMeasure = false;
             
             allSteps = new List<float>();
-            for(int i = 0; i < Song.timeSig; i++){
+            for(int i = 0; i < Song.timeSig - 1; i++){
                 foreach(float substep in allowedSubsteps){
                     allSteps.Add(i + substep);
                 }
+                allSteps.Add(Song.timeSig - 1);
             }
 
             while(!newMeasure){
@@ -221,28 +222,29 @@ public class SongHandler : MonoBehaviour
                 float substepScale = 1.1f - substep/10;
 
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
-                // if(substep < 0.5f && Song.elapsed < Song.timeSig){
-                //     if(metronomeLatch){
-                //         if(Song.gameState == 0){
-                //             GameObject measureObj = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity);
-                //             MeasureLine measureLine = measureObj.GetComponent<MeasureLine>();
-                //             measureLine.target = measureSpawnLeft;
-                //         } else if(Song.gameState == 2){
-                //             GameObject measureObj = Instantiate(measurePre, measureSpawnLeft.position, Quaternion.identity);
-                //             MeasureLine measureLine = measureObj.GetComponent<MeasureLine>();
-                //             measureLine.target = measureSpawnRight;
-                //         }
-                //         // if(Song.elapsed < 0.5f){
-                //         //     sfxPlayer.PlayOneShot(sounds[1]);
-                //         // } else {
-                //         //     sfxPlayer.PlayOneShot(sounds[2]);
-                //         // }
+                if(substep < 0.5f && !newMeasure){
+                    if(metronomeLatch){
+                        Debug.Log(Song.gameState);
+                        if(Song.gameState == 0){
+                            MeasureLine measureLine = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity).GetComponent<MeasureLine>();
+                            measureLine.target = measureSpawnLeft;
+                            measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
+                        } else if(Song.gameState == 2){
+                            MeasureLine measureLine = Instantiate(measurePre, measureSpawnLeft.position, Quaternion.identity).GetComponent<MeasureLine>();
+                            measureLine.target = measureSpawnRight;
+                            measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
+                        }
+                        // if(Song.elapsed < 0.5f){
+                        //     sfxPlayer.PlayOneShot(sounds[1]);
+                        // } else {
+                        //     sfxPlayer.PlayOneShot(sounds[2]);
+                        // }
                         
-                //         metronomeLatch = false;
-                //     }
-                // } else {
-                //     metronomeLatch = true;
-                // }
+                        metronomeLatch = false;
+                    }
+                } else {
+                    metronomeLatch = true;
+                }
                 yield return 0;
             }
             turns += 1;
@@ -280,11 +282,10 @@ public class SongHandler : MonoBehaviour
         float bestDist = 1.0f;
 
         float noteTime = (pressTime + 8 * (60 / Song.bpm));
-        float noteMod = noteTime % 8;
-        Debug.Log("NoteMod: " + noteMod);
+        float noteMod = noteTime % (8 * 60 / Song.bpm) * 2;
 
-        if(noteMod > 7 && noteMod < 7.5f){
-            noteTime -= noteMod - Mathf.Floor(noteMod);
+        if(noteMod > Song.timeSig - 0.5f){
+            noteMod -= 8;
         }
         
         for(int i = 0; i < allSteps.Count; i++){
@@ -296,7 +297,7 @@ public class SongHandler : MonoBehaviour
         }
         float offset = noteMod - allSteps[bestIndex];
         
-        noteTime -= offset;
+        noteTime -= offset / 2;
 
         for(int i = 0; i < noteList.Count; i++){
             if(noteList[i].lane == lane && noteList[i].timing == noteTime){
