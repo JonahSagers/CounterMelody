@@ -56,7 +56,7 @@ public class SongHandler : MonoBehaviour
         //BPM here is just used to set the static version
         Song.bpm = bpm;
         Song.timeSig = timeSig;
-        Song.scrollSpeed = scrollSpeed;
+        PlayerData.scrollSpeed = scrollSpeed;
 
         playerControls = new PlayerControls();
         playerControls.Player.Enable();
@@ -182,15 +182,15 @@ public class SongHandler : MonoBehaviour
         anim.Play("SpawnLines");
         yield return new WaitForSeconds(1f);
         //First six lines are just debug, remove later
-        int countdown = 16;
+        int countdown = 0;
         bgmPlayer.PlayOneShot(sounds[0]);
         sfxPlayer.PlayOneShot(sounds[1]);
-        // while(countdown > 0){
-        //     turnDisplay.text = countdown.ToString();
-        //     yield return new WaitForSeconds(0.5f);
-        //     sfxPlayer.PlayOneShot(sounds[1]);
-        //     countdown -= 1;
-        // }
+        while(countdown > 0){
+            turnDisplay.text = countdown.ToString();
+            yield return new WaitForSeconds(0.5f);
+            sfxPlayer.PlayOneShot(sounds[1]);
+            countdown -= 1;
+        }
         turnDisplay.text = "Right Player Attack";
         
         startTime = Time.realtimeSinceStartup;
@@ -224,7 +224,6 @@ public class SongHandler : MonoBehaviour
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
                 if(substep < 0.5f && !newMeasure){
                     if(metronomeLatch){
-                        Debug.Log(Song.gameState);
                         if(Song.gameState == 0){
                             MeasureLine measureLine = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity).GetComponent<MeasureLine>();
                             measureLine.target = measureSpawnLeft;

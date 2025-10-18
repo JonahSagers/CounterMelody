@@ -21,8 +21,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         health = 10;
-        mana = 4;
-        maxMana = 4;
+        mana = 8;
+        maxMana = 8;
     }
 
     // Update is called once per frame

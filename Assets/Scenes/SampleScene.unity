@@ -809,7 +809,7 @@ MonoBehaviour:
   playerID: 0
   bpm: 120
   timeSig: 8
-  scrollSpeed: 1
+  scrollSpeed: 2
   sounds:
   - {fileID: 8300000, guid: 5e3c6ca7e87a381499eaa23415e63805, type: 3}
   - {fileID: 8300000, guid: 73eb548438b7c2740802504b438e44c1, type: 3}
