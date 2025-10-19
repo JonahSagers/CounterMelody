@@ -909,7 +909,6 @@ MonoBehaviour:
   playerID: 0
   bpm: 120
   timeSig: 8
-  scrollSpeed: 2
   sounds:
   - {fileID: 8300000, guid: 5e3c6ca7e87a381499eaa23415e63805, type: 3}
   - {fileID: 8300000, guid: 73eb548438b7c2740802504b438e44c1, type: 3}
@@ -2424,7 +2423,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 856393932}
-  - component: {fileID: 856393933}
   - component: {fileID: 856393931}
   - component: {fileID: 856393930}
   - component: {fileID: 856393929}
@@ -2518,21 +2516,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &856393933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856393928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3e78984d1b9444828dde41eae058d15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenu
-  scrollSpeed: {fileID: 614468972}
-  measureLine: {fileID: 2140379034}
-  metronome: {fileID: 1856007682}
 --- !u!1 &923984955
 GameObject:
   m_ObjectHideFlags: 0
@@ -4374,7 +4357,7 @@ PrefabInstance:
     - target: {fileID: 3831324984500289822, guid: c9306d7b1717c4b74a0e9d0b971ebd42, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 856393933}
+      objectReference: {fileID: 1863187493}
     - target: {fileID: 3831324984500289822, guid: c9306d7b1717c4b74a0e9d0b971ebd42, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -4564,7 +4547,7 @@ PrefabInstance:
     - target: {fileID: 435028400499458254, guid: 2f06dbd8d80c842a583869043cdfd995, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 856393933}
+      objectReference: {fileID: 1863187493}
     - target: {fileID: 435028400499458254, guid: 2f06dbd8d80c842a583869043cdfd995, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -5843,6 +5826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1863187488}
   - component: {fileID: 1863187490}
+  - component: {fileID: 1863187493}
   - component: {fileID: 1863187489}
   - component: {fileID: 1863187491}
   - component: {fileID: 1863187492}
@@ -5956,6 +5940,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RectMask2D
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
+--- !u!114 &1863187493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863187487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e78984d1b9444828dde41eae058d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenu
+  scrollSpeed: {fileID: 614468972}
+  measureLine: {fileID: 2140379034}
+  metronome: {fileID: 1856007682}
 --- !u!1 &1909814815
 GameObject:
   m_ObjectHideFlags: 0
@@ -6617,7 +6616,7 @@ PrefabInstance:
     - target: {fileID: 435028400499458254, guid: 2f06dbd8d80c842a583869043cdfd995, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 856393933}
+      objectReference: {fileID: 1863187493}
     - target: {fileID: 435028400499458254, guid: 2f06dbd8d80c842a583869043cdfd995, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
