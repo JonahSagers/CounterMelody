@@ -180,7 +180,7 @@ public class SongHandler : MonoBehaviour
         anim.Play("SpawnLines");
         yield return new WaitForSeconds(1f);
         //First six lines are just debug, remove later
-        int countdown = 8;
+        int countdown = 16;
         bgmPlayer.PlayOneShot(sounds[0]);
         
         while(countdown > 0){
@@ -228,14 +228,16 @@ public class SongHandler : MonoBehaviour
                 metronomeDisplay.localScale = new Vector3(substepScale, substepScale, 1);
                 if(substep < 0.5f && !newMeasure){
                     if(metronomeLatch){
-                        if(Song.gameState == 0){
-                            MeasureLine measureLine = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity).GetComponent<MeasureLine>();
-                            measureLine.target = measureSpawnLeft;
-                            measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
-                        } else if(Song.gameState == 2){
-                            MeasureLine measureLine = Instantiate(measurePre, measureSpawnLeft.position, Quaternion.identity).GetComponent<MeasureLine>();
-                            measureLine.target = measureSpawnRight;
-                            measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
+                        if(PlayerData.measureLine){
+                            if(Song.gameState == 0){
+                                MeasureLine measureLine = Instantiate(measurePre, measureSpawnRight.position, Quaternion.identity).GetComponent<MeasureLine>();
+                                measureLine.target = measureSpawnLeft;
+                                measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
+                            } else if(Song.gameState == 2){
+                                MeasureLine measureLine = Instantiate(measurePre, measureSpawnLeft.position, Quaternion.identity).GetComponent<MeasureLine>();
+                                measureLine.target = measureSpawnRight;
+                                measureLine.timestamp = ((int)(Song.elapsedRaw * 2) / 2.0f) + Song.timeSig * 60.0f / Song.bpm;
+                            }
                         }
                         if(PlayerData.metronome){
                             if(Song.elapsed < 0.5f){
