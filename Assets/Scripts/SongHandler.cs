@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class SongHandler : MonoBehaviour
 {
-    public List<(GameObject obj, float timing, int lane)> noteList = new List<(GameObject, float, int)>();
+    public List<(GameObject obj, float timing, int lane, int player)> noteList = new List<(GameObject, float, int, int)>();
     [Header("Components")]
     public TextMeshProUGUI timingDisplay;
     public TextMeshProUGUI turnDisplay;
@@ -42,13 +42,17 @@ public class SongHandler : MonoBehaviour
     [Header("Data")]
     public List<AudioClip> sounds;
     public float startTime;
-    public int turns;
+    public int currentMeasure;
     public List<float> allowedSubsteps;
     public List<float> allSteps;
+    // All events can be boiled down to an array of floats and an array of ints, although they don't always mean the same thing
+    // I may seriously regret this later
+    public List<SongEvent> events;
 
 
     public void Enable()
     {
+        Song.songHandler = this;
         online = true;
         Song.gameState = -1;
         //Song is a static class which is accessible from all scripts, but not the inspector
@@ -66,8 +70,9 @@ public class SongHandler : MonoBehaviour
         playerControls.Player.RightLane1.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane2.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane3.performed += ctx => GetInput(ctx);
-        
-        //StartCoroutine(Metronome());
+
+        events = new List<SongEvent>();
+        events.Add(new AddSteps(0, new float[] {0.0f, 0.5f}));
     }
 
     public void StartGame()
@@ -136,7 +141,7 @@ public class SongHandler : MonoBehaviour
                 //This could potentially cause a client desync in high ping edge cases
                 //Like if player 1 hits it at 7.499 and then player 2 receives at 7.501
                 if((Song.gameState == 1 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 0 && Song.elapsed > Song.timeSig - 0.5f)){
-                    RegisterHit(lane, pressTime);
+                    RegisterHit(1, lane, pressTime);
                 } else if((Song.gameState == 2 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 1 && Song.elapsed > Song.timeSig - 0.5f)){
                     if(playerLeft.SpendMana(1)){
                         SpawnNote(1, lane, pressTime);
@@ -161,7 +166,7 @@ public class SongHandler : MonoBehaviour
             }
             if(lane >= 0){
                 if((Song.gameState == 3 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 2 && Song.elapsed > Song.timeSig - 0.5f)){
-                    RegisterHit(lane, pressTime);
+                    RegisterHit(2, lane, pressTime);
                 } else if((Song.gameState == 0 && Song.elapsed < Song.timeSig - 0.5f) || (Song.gameState == 3 && Song.elapsed > Song.timeSig - 0.5f)){
                     if(playerRight.SpendMana(1)){
                         SpawnNote(2, lane, pressTime);
@@ -170,6 +175,20 @@ public class SongHandler : MonoBehaviour
                 }
                 return;
             }
+        }
+    }
+
+    public void TickEvents(int measure)
+    {
+        List<SongEvent> toRemove = new List<SongEvent>();
+        foreach(SongEvent songEvent in events){
+            if(songEvent.measure == measure){
+                songEvent.Activate();
+                toRemove.Add(songEvent);
+            }
+        }
+        foreach(SongEvent songEvent in toRemove){
+            events.Remove(songEvent);
         }
     }
 
@@ -201,23 +220,17 @@ public class SongHandler : MonoBehaviour
         bool newMeasure;
         bool metronomeLatch = true;
         Song.gameState = 0;
-        allowedSubsteps.Add(0.0f);
-        allowedSubsteps.Add(0.5f);
+        TickEvents(0);
+        // allowedSubsteps.Add(0.0f);
+        // allowedSubsteps.Add(0.5f);
+        // RecalculateSubsteps();
         while(true){
             newMeasure = false;
-            
-            allSteps = new List<float>();
-            for(int i = 0; i < Song.timeSig - 1; i++){
-                foreach(float substep in allowedSubsteps){
-                    allSteps.Add(i + substep);
-                }
-                allSteps.Add(Song.timeSig - 1);
-            }
 
             while(!newMeasure){
                 timingDisplay.text = Song.elapsedRaw.ToString();
                 Song.elapsedRaw = Time.realtimeSinceStartup - startTime;
-                Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * turns;
+                Song.elapsed = (Time.realtimeSinceStartup - startTime) / 60.0f * Song.bpm - Song.timeSig * currentMeasure;
                 if(Song.elapsed > Song.timeSig){
                     Song.elapsed = Mathf.Repeat(Song.elapsed, Song.timeSig);
                     newMeasure = true;
@@ -255,7 +268,8 @@ public class SongHandler : MonoBehaviour
                 }
                 yield return 0;
             }
-            turns += 1;
+            currentMeasure += 1;
+            TickEvents(currentMeasure);
             Song.gameState = (Song.gameState + 1) % 4;
             //Mana is refreshed directly after the attack, but only visually shown during the next attack
             //This avoids being out of mana on your first hit
@@ -308,7 +322,7 @@ public class SongHandler : MonoBehaviour
         noteTime -= offset / 2;
 
         for(int i = 0; i < noteList.Count; i++){
-            if(noteList[i].lane == lane && noteList[i].timing == noteTime){
+            if(noteList[i].player == player && noteList[i].lane == lane && noteList[i].timing == noteTime){
                 if(player == 1){
                     playerLeft.mana += 1;
                     playerLeft.manaBar.value += 1;
@@ -324,15 +338,15 @@ public class SongHandler : MonoBehaviour
         GameObject note = Instantiate(notePre, spawnLanes[lane].transform.position, Quaternion.identity);
         note.GetComponent<NoteMove>().target = targetLanes[lane].transform;
         note.GetComponent<NoteMove>().timestamp = noteTime;
-        noteList.Add((note, noteTime, lane));
+        noteList.Add((note, noteTime, lane, (player % 2) + 1));
     }
 
     //In theory we shouldn't need to differentiate between players for this one
-    public void RegisterHit(int lane, float pressTime)
+    public void RegisterHit(int player, int lane, float pressTime)
     {
         for(int i = 0; i < noteList.Count; i++){
             //split into two if statements to potentially do judgements
-            if(noteList[i].lane == lane){
+            if(noteList[i].player == player && noteList[i].lane == lane){
                 float error = Mathf.Abs(noteList[i].timing - pressTime);
                 error = (error < 1) ? error : -Song.timeSig + error;
                 //really wish I knew how to do this in one check

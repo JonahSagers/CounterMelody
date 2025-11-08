@@ -8,4 +8,5 @@ public static class Song
     public static float timeSig;
     public static float scrollSpeed;
     public static int gameState;
+    public static SongHandler songHandler;
 }
