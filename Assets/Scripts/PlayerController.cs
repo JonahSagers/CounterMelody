@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(healthBarRoutine);
         }
         healthBarRoutine = StartCoroutine(HealthBarUpdate());
+        if(health <= 0){
+            //gameover
+        }
     }
 
     public bool SpendMana(float spent)

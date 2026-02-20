@@ -283,6 +283,22 @@ public class SongHandler : MonoBehaviour
                     if(Mathf.Abs(error) < 0.05f){
                         judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Perfect";
                         if(Song.gameState < 2){
+                            playerLeft.maxMana += 0.5f;
+                            if(Mathf.Repeat(playerLeft.maxMana, 1) == 0){
+                                playerLeft.mana += 1.0f;
+                            }
+                            
+                            playerLeft.ManaBarScale();
+                        } else {
+                            playerRight.maxMana += 0.5f;
+                            if(Mathf.Repeat(playerRight.maxMana, 1) == 0){
+                                playerRight.mana += 1.0f;
+                            }
+                            playerRight.ManaBarScale();
+                        }
+                    } else if(Mathf.Abs(error) < 0.15f){
+                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Good";
+                        if(Song.gameState < 2){
                             playerLeft.maxMana += 0.25f;
                             if(Mathf.Repeat(playerLeft.maxMana, 1) == 0){
                                 playerLeft.mana += 1.0f;
@@ -296,8 +312,6 @@ public class SongHandler : MonoBehaviour
                             }
                             playerRight.ManaBarScale();
                         }
-                    } else if(Mathf.Abs(error) < 0.15f){
-                        judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Good";
                     } else {
                         judgement.transform.GetChild(0).GetComponent<TextMeshPro>().text = "Bad";
                         judgement.transform.GetChild(0).GetComponent<TextMeshPro>().color = Color.red;
