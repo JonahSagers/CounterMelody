@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
+    public string instrument;
     public float mana;
     public float health;
     public float maxMana;

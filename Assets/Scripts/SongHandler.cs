@@ -60,16 +60,23 @@ public class SongHandler : MonoBehaviour
         Song.bpm = bpm;
         Song.timeSig = timeSig;
 
+        playerLeft.instrument = "guitar";
+        playerRight.instrument = "vocals";
+
         playerControls = new PlayerControls();
         playerControls.Player.Enable();
         playerControls.Player.LeftLane0.performed += ctx => GetInput(ctx);
         playerControls.Player.LeftLane1.performed += ctx => GetInput(ctx);
         playerControls.Player.LeftLane2.performed += ctx => GetInput(ctx);
         playerControls.Player.LeftLane3.performed += ctx => GetInput(ctx);
+
         playerControls.Player.RightLane0.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane1.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane2.performed += ctx => GetInput(ctx);
         playerControls.Player.RightLane3.performed += ctx => GetInput(ctx);
+
+        playerControls.Player.LeftAbility.performed += ctx => GetInput(ctx);
+        playerControls.Player.RightAbility.performed += ctx => GetInput(ctx);
 
         events = new List<SongEvent>();
         events.Add(new AddSteps(0, new float[] {0.0f, 0.5f}));
@@ -100,7 +107,7 @@ public class SongHandler : MonoBehaviour
         if(online){
             packet.player = playerID;
         } else {
-            if("wasd".Contains(keyName)){
+            if("wasde".Contains(keyName)){
                 packet.player = 1;
             } else {
                 packet.player = 2;
@@ -150,6 +157,9 @@ public class SongHandler : MonoBehaviour
                 }
                 return;
             }
+            if(keyName == "e"){
+                Debug.Log("Player Left Ability");
+            }
         } else if(packet.player == 2){
             if(keyName == "upArrow"){
                 lane = 0;
@@ -174,6 +184,9 @@ public class SongHandler : MonoBehaviour
                     }
                 }
                 return;
+            }
+            if(keyName == "slash"){
+                Debug.Log("Player Right Ability");
             }
         }
     }

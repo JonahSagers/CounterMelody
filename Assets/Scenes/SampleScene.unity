@@ -922,7 +922,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 310c99ae8904b7d4384d08e6313f040b, type: 3}
   - {fileID: 8300000, guid: f026873da2c3c6145955f4db5cf62766, type: 3}
   startTime: 0
-  turns: 0
+  currentMeasure: 0
   allowedSubsteps: []
   allSteps: []
 --- !u!4 &382715788
@@ -2341,6 +2341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ef18358363f14428d7ef58d7f27e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  instrument: 
   mana: 0
   health: 0
   maxMana: 0
@@ -4177,6 +4178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ef18358363f14428d7ef58d7f27e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  instrument: 
   mana: 0
   health: 0
   maxMana: 0
