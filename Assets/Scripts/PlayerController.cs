@@ -2,9 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool left;
     public float mana;
     public float health;
     public float maxMana;
@@ -46,8 +50,32 @@ public class PlayerController : MonoBehaviour
         }
         healthBarRoutine = StartCoroutine(HealthBarUpdate());
         if(health <= 0){
-            //gameover
+            Song.bpm = 0;
+            StartCoroutine(Lose());
         }
+    }
+
+    IEnumerator Lose()
+    {
+        GameObject.Find("Turn Debug").GetComponent<TextMeshProUGUI>().text = (left ? "Player 2 Wins!" : "Player 1 Wins!");
+        render.color = new Color(1, 0.5f, 0.5f);
+        transform.DetachChildren();
+        float elapsed = 0;
+
+        while(elapsed < 1){
+            transform.position -= (1 - elapsed) * Vector3.right * Time.deltaTime * (left ? 1.5f : -1.5f);
+            elapsed += Time.deltaTime;
+            yield return 0;
+        }
+        yield return new WaitForSeconds(2);
+        GameObject.Find("Turn Debug").GetComponent<TextMeshProUGUI>().text = "Press Any Key To Restart";
+
+
+        while(!Keyboard.current.anyKey.wasPressedThisFrame){
+            yield return 0;
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public bool SpendMana(float spent)

@@ -147,7 +147,6 @@ public class SongHandler : MonoBehaviour
         
         startTime = Time.realtimeSinceStartup;
         bool newMeasure;
-        bool metronomeLatch = true;
         Song.gameState = 0;
         allowedSubsteps.Add(0.0f);
         allowedSubsteps.Add(0.5f);
